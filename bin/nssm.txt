@@ -1,0 +1,38 @@
+--Application tab
+nssm set UT2003 Application C:\games\ut2003\System\UCC.exe
+nssm set UT2003 AppDirectory C:\games\ut2003\System
+nssm set UT2003 AppParameters server
+--Details tab
+nssm set UT2003 DisplayName UT2k3
+nssm set UT2003 Description Unreal Tournament 2003
+nssm set UT2003 Start SERVICE_AUTO_START
+--Log on tab
+nssm set UT2003 ObjectName LocalSystem
+nssm set UT2003 Type SERVICE_WIN32_OWN_PROCESS
+--Dependencies tab
+nssm set UT2003 DependOnService MpsSvc
+--Process tab
+nssm set UT2003 AppPriority NORMAL_PRIORITY_CLASS
+nssm set UT2003 AppNoConsole 0
+nssm set UT2003 AppAffinity All
+--Shutdown tab
+nssm set UT2003 AppStopMethodSkip 0
+nssm set UT2003 AppStopMethodConsole 1500
+nssm set UT2003 AppStopMethodWindow 1500
+nssm set UT2003 AppStopMethodThreads 1500
+--Exit actions tab
+nssm set UT2003 AppThrottle 1500
+nssm set UT2003 AppExit Default Restart
+nssm set UT2003 AppRestartDelay 0
+--I/0 tab
+nssm set UT2003 AppStdout C:\games\ut2003\service.log
+nssm set UT2003 AppStderr C:\games\ut2003\service.log
+--File rotation tab
+nssm set UT2003 AppStdoutCreationDisposition 4
+nssm set UT2003 AppStderrCreationDisposition 4
+nssm set UT2003 AppRotateFiles 1
+nssm set UT2003 AppRotateOnline 0
+nssm set UT2003 AppRotateSeconds 86400
+nssm set UT2003 AppRotateBytes 1048576
+--Environment tab
+nssm set <servicename> AppEnvironmentExtra JAVA_HOME=C:\java

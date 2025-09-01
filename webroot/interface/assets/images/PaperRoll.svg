@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.8.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 476.33 309.07" overflow="visible" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="25.8504" y1="59.418" x2="25.8504" y2="30.0444">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#000000"/>
+</linearGradient>
+<rect x="17.42" y="30.04" fill="url(#SVGID_1_)" stroke="#000000" stroke-width="0.2965" stroke-miterlimit="10" width="16.86" height="29.37"/>
+<path fill="#FFFFFF" stroke="#000000" stroke-width="0.3876" stroke-miterlimit="10" d="M17.42,59.42"/>
+<path fill="#FFFFFF" stroke="#000000" stroke-width="0.3876" stroke-miterlimit="10" d="M30.87,31.13v275.11h414.59V31.13
+	c0-15.63-6.02-28.29-13.45-28.29H17.42"/>
+<ellipse fill="#FFFFFF" stroke="#000000" stroke-width="0.3876" stroke-miterlimit="10" cx="17.42" cy="31.13" rx="13.45" ry="28.29"/>
+<linearGradient id="SVGID_00000087375436995886596600000004640508469163849120_" gradientUnits="userSpaceOnUse" x1="12.6913" y1="31.1263" x2="22.1472" y2="31.1263">
+	<stop  offset="0" style="stop-color:#EDEDEE"/>
+	<stop  offset="1" style="stop-color:#B1B3B6"/>
+</linearGradient>
+<ellipse fill="url(#SVGID_00000087375436995886596600000004640508469163849120_)" stroke="#000000" stroke-width="0.3876" stroke-miterlimit="10" cx="17.42" cy="31.13" rx="4.73" ry="9.94"/>
+</svg>

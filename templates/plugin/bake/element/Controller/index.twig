@@ -1,0 +1,88 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+        $isAjax = false;
+
+        if ($this->request->is('ajax')) {
+            $datatablesQuery = $this->request->getQuery();
+
+            //$headers must match the View
+            $headers = [
+                //TODO copy $headers from the View
+            ];
+
+            $recordsTotal = $this->{{ currentModelName }}->find('all')
+                ->select(['id'], true)
+                ->count();
+            $this->set('recordsTotal', $recordsTotal);
+
+            //set some JSON fields back to STRING type for searching
+            //$this->{{ currentModelName }}->convertJsonFieldsToString('[some-col-name]');
+
+            //create a Query
+            ${{ pluralName }} = $this->{{ currentModelName }}->find('all');
+
+            //apply quick search filter
+            $quickFilterOptions = [
+                //TODO update the numeric and text fields to apply the quick filter to (below is a default set of common field names)
+                //'numeric_fields' => ['{{ currentModelName }}.id', '{{ currentModelName }}.rank', '{{ currentModelName }}.priority'],
+                //'text_fields' => ['{{ currentModelName }}.name', '{{ currentModelName }}.description', '{{ currentModelName }}.text', '{{ currentModelName }}.first_name', '{{ currentModelName }}.last_name'],
+            ];
+            ${{ pluralName }} = $this->{{ currentModelName }}->applyDatatablesQuickSearchFilter(${{ pluralName }}, $datatablesQuery, $quickFilterOptions);
+
+            //apply column filters
+            ${{ pluralName }} = $this->{{ currentModelName }}->applyDatatablesColumnFilters(${{ pluralName }}, $datatablesQuery, $headers);
+
+            //final filtered count
+            $this->set('recordsFiltered', ${{ pluralName }}->count());
+
+            $this->viewBuilder()->setLayout('ajax');
+            $this->response = $this->response->withType('json');
+            $isAjax = true;
+            $this->set('datatablesQuery', $datatablesQuery);
+
+            $order = [];
+            if (isset($datatablesQuery['order']) && is_array($datatablesQuery['order'])) {
+                foreach ($datatablesQuery['order'] as $item) {
+                    if (isset($headers[$item['column']])) {
+                        $orderBy = $headers[$item['column']];
+                        $orderDirection = $item['dir'];
+                        $order['{{ currentModelName }}.' . $orderBy] = $orderDirection;
+                    }
+                }
+            }
+
+            $this->paginate = [
+                'limit' => $datatablesQuery['length'],
+                'page' => intval(($datatablesQuery['start'] / $datatablesQuery['length']) + 1),
+                'order' => $order,
+            ];
+            ${{ pluralName }} = $this->paginate(${{ pluralName }});
+            $this->set(compact('{{ pluralName }}'));
+            $this->set('isAjax', $isAjax);
+            $this->set('message', $this->{{ currentModelName }}->getAllAlertsLogSequence());
+            return;
+        }
+
+        $this->set('{{ pluralName }}', []);
+        $this->set('isAjax', $isAjax);
+    }

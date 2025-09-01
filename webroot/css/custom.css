@@ -1,0 +1,124 @@
+.pointer {
+    cursor: pointer;
+}
+
+.dataset {
+    border-collapse: collapse !important;
+}
+
+.dataTables_filter {
+    margin-bottom: 10px !important;
+}
+
+.spacer-20 {
+    min-height: 20px !important;
+}
+
+.spacer-25 {
+    min-height: 25px !important;
+}
+
+.spacer-50 {
+    min-height: 50px !important;
+}
+
+.artifact-preview {
+    max-width: 512px;
+    max-height: 512px;
+}
+
+img.artifact-preview-image {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+
+
+#layoutAuthentication_content > main > div > div > div > div.container-fluid.px-4 > div.alert {
+    margin-top: 30px;
+}
+
+tr.filters th {
+    padding-right: 4px !important;
+}
+
+tr.filters th input {
+    width: 100% !important;
+    /*border-color: #6c757d;*/
+}
+
+tr.filters th input::placeholder {
+    color: #dadada;
+}
+
+.tooltip-inner {
+    min-width: 250px;
+    max-width: 100%;
+}
+
+.powered-by-fujifilm-logo {
+    max-height: 0.7rem;
+    vertical-align: baseline;
+}
+
+.mode-banner {
+    position: fixed;
+    top: 0;
+    left: 70%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 40px;
+    color: white;
+    padding-top: 10px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    z-index: 1050;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.mode-banner-development {
+    background-color: green;
+}
+
+.mode-banner-test {
+    background-color: orange;
+}
+
+.mode-banner-production {
+    background-color: red;
+}
+
+@media (max-width: 768px) {
+    .mode-banner {
+        width: 150px;
+    }
+}
+
+.timer-holder {
+    width: 25px;
+    height: 25px;
+}
+
+.timer-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: lightgray;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.timer-overlay {
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(#e6e6e6 0%, #e6e6e6 0%, transparent 0%, transparent 100%);
+    /*transform: rotate(0deg); !* Start from the top *!*/
+    transition: background 0.1s linear;
+}

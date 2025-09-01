@@ -1,0 +1,118 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set fields = Bake.filterFields(fields, schema, modelObject) %}
+<div class="container-fluid px-4">
+    <div class="card">
+
+        <div class="card-header">
+            <?= h(${{ singularVar }}->name) ?? "{{ singularHumanName }} Details" ?>
+        </div>
+
+        <div class="card-body">
+        <div class="{{ pluralVar }} form content">
+            <?= $this->Form->create(${{ singularVar }}) ?>
+            <fieldset>
+                <legend><?= __('') ?></legend>
+                <?php
+{% for field in fields %}
+{%- if field not in primaryKey %}
+    {%- if keyFields[field] is defined %}
+        {%- set fieldData = Bake.columnData(field, schema) %}
+        {%- if fieldData.null %}
+                    $opts = [
+                        'class' => 'form-control mb-4',
+                        'data-type' => '{{ fieldData.type }}',
+                        'options' => ${{ keyFields[field] }},
+                        'empty' => true,
+                    ];
+                    echo $this->Form->control('{{ field }}', $opts);
+                    {{- "\n\n" }}
+        {%- else %}
+                    $opts = [
+                        'class' => 'form-control mb-4',
+                        'data-type' => '{{ fieldData.type }}',
+                        'options' => ${{ keyFields[field] }},
+                    ];
+                    echo $this->Form->control('{{ field }}', $opts);
+                    {{- "\n\n" }}
+        {%- endif %}
+    {%- elseif field not in ['created', 'modified', 'updated'] %}
+        {%- set fieldData = Bake.columnData(field, schema) %}
+        {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+                    $opts = [
+                        'class' => 'form-control mb-4',
+                        'data-type' => '{{ fieldData.type }}',
+                        'empty' => true,
+                    ];
+                    echo $this->Form->control('{{ field }}', $opts);
+                    {{- "\n\n" }}
+        {%- elseif fieldData.type in ['boolean',]%}
+                    $opts = [
+                        'class' => 'form-check-input mb-4',
+                        'label' => ['class' => 'form-check-label mb-4'],
+                        'data-type' => '{{ fieldData.type }}',
+                    ];
+                    $this->Form->switchToCheckboxTemplate();
+                    echo $this->Form->control('{{ field }}', $opts);
+                    $this->Form->switchBackTemplates();
+                    {{- "\n\n" }}
+        {%- else %}
+                    $opts = [
+                        'class' => 'form-control mb-4',
+                        'data-type' => '{{ fieldData.type }}',
+                    ];
+                    echo $this->Form->control('{{ field }}', $opts);
+                    {{- "\n\n" }}
+        {%- endif %}
+    {%- endif %}
+{%- endif %}
+{%- endfor %}
+
+{%- if associations.BelongsToMany is defined %}
+{%- for assocName, assocData in associations.BelongsToMany %}
+                    $opts = [
+                        'class' => 'form-control mb-4',
+                        'data-type' => '{{ fieldData.type }}',
+                        'options' => ${{ assocData.variable }},
+                    ];
+                    echo $this->Form->control('{{ assocData.property }}._ids', $opts);
+                    {{- "\n\n" }}
+{%- endfor %}
+{% endif %}
+                ?>
+            </fieldset>
+        </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="float-end">
+                <?php
+                $options = [
+                    'class' => 'link-secondary me-4'
+                ];
+                echo $this->Html->link(__('Back'), ['controller' => '{{ pluralVar }}'], $options);
+
+                $options = [
+                'class' => 'btn btn-primary'
+                ];
+                echo $this->Form->button(__('Submit'), $options);
+                ?>
+            </div>
+            <?= $this->Form->end() ?>
+        </div>
+
+    </div>
+</div>

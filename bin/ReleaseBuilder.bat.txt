@@ -1,0 +1,40 @@
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+:: ReleaseBuilder is a Windows batch script for building an Application Release
+::
+:: :: This template file is used as the base for creating the 'ReleaseBuilder.bat'
+:: :: file in the local developer environment. The final .bat file will contain the
+:: :: path to the local installations of PHP and Composer. The final .bat file is
+:: :: not committed into the GIT Repository.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+@echo off
+
+:: in case DelayedExpansion is on and a path contains !
+setlocal DISABLEDELAYEDEXPANSION
+
+SET php_path=
+SET composer_path=
+
+SET app=%0
+SET lib=%~dp0
+
+%php_path% "%lib%cake.php" ReleaseBuilder debug_off
+
+%php_path% "%composer_path%" install --no-dev --no-scripts --ignore-platform-reqs
+%php_path% "%composer_path%" dump-autoload --ignore-platform-reqs
+
+echo.
+
+%php_path% "%lib%cake.php" ReleaseBuilder build
+
+echo.
+
+%php_path% "%composer_path%" install --no-scripts --ignore-platform-reqs
+%php_path% "%composer_path%" dump-autoload --ignore-platform-reqs
+
+%php_path% "%lib%cake.php" ReleaseBuilder debug_on
+
+echo.
+
+exit /B %ERRORLEVEL%

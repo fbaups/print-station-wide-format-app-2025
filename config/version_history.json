@@ -1,0 +1,176 @@
+[
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.0",
+        "desc": "Rapid framework for Application building.",
+        "codename": ""
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.1",
+        "desc": "Initial clone from  Application Works Dashboard",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240604_030713_PrintStationWideFormat_v0.0.1.zip",
+        "release_date": "20240604_030713"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.2",
+        "desc": "Added invitation links",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240604_041010_PrintStationWideFormat_v0.0.2.zip",
+        "release_date": "20240604_041010"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.3",
+        "desc": "Enhanced Users",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240604_062817_PrintStationWideFormat_v0.0.3.zip",
+        "release_date": "20240604_062817"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.4",
+        "desc": "General GUI enhancements",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240605_000607_PrintStationWideFormat_v0.0.4.zip",
+        "release_date": "20240605_000607"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.5",
+        "desc": "Updates to Messages and Artifacts",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS\/20240708_045908_PrintStationWideFormat_v0.0.5.zip",
+        "release_date": "20240708_045908"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.6",
+        "desc": "Updates to Messages and Artifacts",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240708_055843_PrintStationWideFormat_v0.0.6.zip",
+        "release_date": "20240708_055843"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.7",
+        "desc": "Import Application Works enhancements",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240927_005726_PrintStationWideFormat_v0.0.7.zip",
+        "release_date": "20240927_005726"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.8",
+        "desc": "Upgraded Core",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240930_062826_PrintStationWideFormat_v0.0.8.zip",
+        "release_date": "20240930_062826"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.9",
+        "desc": "Updated Epson Print Automate template selection",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20240930_225013_PrintStationWideFormat_v0.0.9.zip",
+        "release_date": "20240930_225013"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.10",
+        "desc": "Added view of Hot Folder Entries",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20241001_003752_PrintStationWideFormat_v0.0.10.zip",
+        "release_date": "20241001_003752"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.11",
+        "desc": "Operator Job Output",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20241013_223356_PrintStationWideFormat_v0.0.11.zip",
+        "release_date": "20241013_223356"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.12",
+        "desc": "Added icons",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20241013_232419_PrintStationWideFormat_v0.0.12.zip",
+        "release_date": "20241013_232419"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.0.13",
+        "desc": "Fixed Tokens when using Output Processor",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20241014_010929_PrintStationWideFormat_v0.0.13.zip",
+        "release_date": "20241014_010929"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.0",
+        "desc": "Mimimum requirements for initial release",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20241015_024733_PrintStationWideFormat_v0.1.0.zip",
+        "release_date": "20241015_024733"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.1",
+        "desc": "General fixes",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250214_012125_PrintStationWideFormat_v0.1.1.zip",
+        "release_date": "20250214_012125"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.2",
+        "desc": "Fixed Epson output processor",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250214_043334_PrintStationWideFormat_v0.1.2.zip",
+        "release_date": "20250214_043334"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.3",
+        "desc": "Updates Epson Print Automate",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250214_054602_PrintStationWideFormat_v0.1.3.zip",
+        "release_date": "20250214_054602"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.4",
+        "desc": "Fixes to Epson Print Automate",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250214_095021_PrintStationWideFormat_v0.1.4.zip",
+        "release_date": "20250214_095021"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.5",
+        "desc": "Fixes to Epson Print Automate",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250218_014627_PrintStationWideFormat_v0.1.5.zip",
+        "release_date": "20250218_014627"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.6",
+        "desc": "Fixes to Epson Print Automate",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250218_042812_PrintStationWideFormat_v0.1.6.zip",
+        "release_date": "20250218_042812"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.7",
+        "desc": "Small fixes to GUI.",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250223_233555_PrintStationWideFormat_v0.1.7.zip",
+        "release_date": "20250223_233555"
+    }
+]
