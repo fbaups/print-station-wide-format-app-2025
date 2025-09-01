@@ -1,0 +1,92 @@
+/**
+-----base stretching of elements to full screen----------------------------------------------------------------------
+ */
+
+#tracks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #01916d;
+}
+
+#track-timecode, #track-01, #track-02, #track-03, #track-04, #track-05 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#track-01 img, #track-01 video,
+#track-02 img, #track-02 video,
+#track-03 img, #track-03 video,
+#track-04 img, #track-04 video,
+#track-05 img, #track-05 video {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#track-timecode {
+    height: 50px;
+    text-align: center;
+}
+
+#track-audio {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    height: 100px;
+}
+
+#track-audio-off, #track-audio-on {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.fitting-original {
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+}
+
+
+.fitting-fit {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.fitting-fill {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fitting-stretch {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.fitting-scale-down {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" DescriptiveName="SQL Server 2014 Installation Guide r.1.0" ID="JDF.ID" JobID="JDF.JobID" Status="Waiting" Type="Combined" Types="DigitalPrinting ColorSpaceConversion LayoutPreparation Screening" Version="1.2">
+
+    <Comment Name="GeneralComments"/>
+
+    <NodeInfo JobPriority="50"/>
+
+
+
+    <CustomerInfo/>
+
+    <ResourcePool>
+
+        <Device Class="Implementation" DeviceFamily="Digital Press" ID="DE001" Status="Available">
+
+            <GeneralID IDUsage="QueueDestination" IDValue="Held"/>
+
+        </Device>
+
+        <Media Class="Consumable" Dimension="538.0 652.0" ID="ME001" Status="Available"/>
+
+        <DigitalPrintingParams Class="Parameter" ID="DI001" Status="Available">
+
+            <MediaRef rRef="ME001"/>
+
+        </DigitalPrintingParams>
+
+        <RunList Class="Parameter" ID="RU001" Status="Available">
+
+            <LayoutElement>
+
+                <FileSpec MimeType="application/pdf" URL="//10.99.166.25/save/save_file/SQL%20Server%202014%20Installation%20Guide%20r.1.0.pdf"/>
+
+            </LayoutElement>
+
+        </RunList>
+
+        <LayoutPreparationParams Class="Parameter" ID="LA001" Sides="TwoSidedFlipY" Status="Available"/>
+
+        <Component Class="Quantity" ComponentType="FinalProduct" ID="CO001" Status="Unavailable"/>
+
+        <ColorantControl ID="ID_28868199649000" ProcessColorModel="DeviceGray"/>
+        <StitchingParams ID="ID_28868211415500" NumberOfStitches="1" StitchType="Corner"/>
+        <Component ID="ID_28868214329700"/>
+        <PSOriginalPrintOption ExPage="true" StapleMode="TopLeftCorner"/>
+        <PSOriginalSpPages SpPageBackLength-1="-11339.0" SpPageBackLengthMag-1="100.0" SpPageBackWidth-1="0.0" SpPageBackWidthMag-1="100.0" SpPageColorMode-3="Color" SpPageDuplexMode-1="No" SpPageFrontLength-1="0.0" SpPageFrontLengthMag-1="100.0" SpPageFrontWidth-1="17008.0" SpPageFrontWidthMag-1="100.0" SpPagePrintPosition-1="PaperBase" SpPageRange-1="3-6" SpPageRange-2="3-6" SpPageRange-3="3-6" SpPageStkName-2="90gsm Silk" SpPageStkType-2="Name" SpPageTray-2="TrayStk" SpPageType-1="ExPage" SpPageType-2="ExPage" SpPageType-3="ExPage"/>
+        <NodeInfo ID="ID_28868231866300" JobPriority="50"/>
+    </ResourcePool>
+    <ResourceLinkPool>
+
+        <DeviceLink Usage="Input" rRef="DE001"/>
+
+        <MediaLink Usage="Input" rRef="ME001"/>
+
+        <DigitalPrintingParamsLink Usage="Input" rRef="DI001"/>
+
+        <RunListLink Usage="Input" rRef="RU001"/>
+
+        <LayoutPreparationParamsLink Usage="Input" rRef="LA001"/>
+
+        <ComponentLink Amount="1.0" Usage="Output" rRef="CO001"/>
+
+        <ColorantControlLink Usage="Input" rRef="ID_28868199649000"/>
+        <StitchingParamsLink CombinedProcessIndex="5" Usage="Input" rRef="ID_28868211415500"/>
+        <ComponentLink CombinedProcessIndex="4" Orientation="Rotate0" Usage="Input" rRef="ID_28868214329700"/>
+        <NodeInfoLink Usage="Input" rRef="ID_28868231866300"/>
+    </ResourceLinkPool>
+</JDF>

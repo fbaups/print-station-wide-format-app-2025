@@ -1,0 +1,40 @@
+[OutDevice]
+DeviceName=Frontier-sRGB
+[ImageList]
+ImageCnt=4
+1=1.jpg
+2=2.jpg
+3=3.jpg
+4=4.jpg
+[1.jpg]
+SizeName=710
+PrintCnt=1
+BackPrint=FREE
+BackPrintLine1=119730598643, Wilson, Alice, 3/4M, 04,
+BackPrintLine2=565: A-Pack
+Resize=NONE
+DSC_Chk=FALSE
+[2.jpg]
+SizeName=710
+PrintCnt=2
+BackPrint=FREE
+BackPrintLine1=119730598643, Wilson, Alice, 3/4M, 04,
+BackPrintLine2=565: A-Pack
+Resize=NONE
+DSC_Chk=FALSE
+[3.jpg]
+SizeName=710
+PrintCnt=3
+BackPrint=FREE
+BackPrintLine1=171336916133, Wilson, Jack, 6SR, 06, ,
+BackPrintLine2=614: A-Pack
+Resize=NONE
+DSC_Chk=FALSE
+[4.jpg]
+SizeName=710
+PrintCnt=4
+BackPrint=FREE
+BackPrintLine1=171336916133, Wilson, Jack, 6SR, 06, ,
+BackPrintLine2=614: A-Pack
+Resize=NONE
+DSC_Chk=FALSE

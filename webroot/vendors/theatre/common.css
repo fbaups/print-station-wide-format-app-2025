@@ -1,0 +1,41 @@
+/*
+Common to all Theatre pages
+ */
+
+body {
+    margin: 0;
+    font-family: Arial, serif;
+    background-color: white;
+}
+
+.exit-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.exit-button a, .exit-button a:visited, .exit-button a:hover, .exit-button a:active {
+    color: inherit;
+}
+
+.login-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+.login-button a, .login-button a:visited, .login-button a:hover, .login-button a:active {
+    color: inherit;
+}

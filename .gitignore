@@ -1,0 +1,76 @@
+# Local folders #
+##########################
+/logs/*
+/tmp/*
+/vendor/*
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Tool specific files #
+#######################
+# vim
+*~
+*.swp
+*.swo
+# sublime text & textmate
+*.sublime-*
+*.stTheme.cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+# Eclipse
+.settings/*
+# JetBrains, aka PHPStorm, IntelliJ IDEA
+.idea/*
+# NetBeans
+nbproject/*
+# Visual Studio Code
+.vscode
+# Sass preprocessor
+.sass-cache/
+
+# Local application specific files #
+##########################
+/composer.phar
+/config/.env
+/config/app_datasources.php
+/config/app_local.php
+/config/config_local.php
+/config/Stub_DB.sqlite
+/config/Stub_DB.sqlite-journal
+/config/internal.sqlite
+/config/internal.bak.sqlite
+/config/internal_dev.sqlite
+/config/version.ini
+/config/version_history_hash.txt
+/config/remote_update.json
+/config/remote_update.bak
+/bin/BackgroundServices/nssm.exe
+/bin/BackgroundServices/services_install.bat
+/bin/BackgroundServices/services_remove.bat
+/bin/BackgroundServices/services_start.bat
+/bin/BackgroundServices/services_stop.bat
+/bin/BackgroundServices/services_test_commands.bat
+/bin/BuildRelease_Test.bat
+bin/ComposerCommands.txt
+web.config
+config/ApplicationWorks.sqlite
+config/app_datasources.prod.php
+config/app_datasources.test.mysql.php
+config/app_datasources.test.sqlite.php
+config/app_datasources.test.sqlsrv.php
+config/unitTest.sqlite
+bin/ReleaseBuilder.bat
+tests/TestCase/OrderManagement/order_sample_woo_commerce.json
+tests/TestCase/OrderManagement/woo_orders.json
+tests/TestCase/OrderManagement/body.xml
+tests/TestCase/OrderManagement/body.zip
+.rnd

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OrderXml>
+  <Order OrderId="6173" DisplayOrderId="43716" CreationDate="2024-07-03T10:50:11.550" cartCreationdDate="2024-07-03T09:28:55.970" orderSubmissionDate="2024-07-03T10:50:11.547" orderSubmissionId="715" primaryCurrency="AUD">
+    <Prices>
+      <Subtotal>785.66400</Subtotal>
+      <ShippingPrice>0.00000</ShippingPrice>
+      <MailingPrice>0.00000</MailingPrice>
+      <Tax>78.57000</Tax>
+      <Taxes RoundingAmount="0.00" Amount="78.57">
+        <Tax Name="GST" DisplayName="GST" Percentage="10.00000">78.5664000000</Tax>
+      </Taxes>
+      <CouponDiscount CouponID="0">0.00000</CouponDiscount>
+      <TotalPrice>864.23400</TotalPrice>
+      <Cost>0.00000</Cost>
+    </Prices>
+    <Store Id="37" externalId="" LandingDomain="flashexhibtions.ezportal.com.au">
+      <Currency>AUD</Currency>
+      <PickupAddress />
+    </Store>
+    <User UserId="1877" externalId="">
+      <FirstName>Flash</FirstName>
+      <LastName>Brisbane</LastName>
+      <Email>brisbane.qld@flash.com.au</Email>
+      <Phone />
+      <Mobile />
+      <Fax />
+      <Company />
+      <Department />
+      <JobTitle />
+    </User>
+    <BillingAddress>
+      <Name>Reception</Name>
+      <Company>Flash</Company>
+      <Address1>23 Links Avenue</Address1>
+      <Address2 />
+      <City>Eagle Farm</City>
+      <State>QLD</State>
+      <ZipCode>4v009</ZipCode>
+      <Country>AU</Country>
+      <Phone>07 3620 7600</Phone>
+      <Fax />
+      <AddressReference />
+    </BillingAddress>
+    <Deliveries>
+      <Delivery>
+        <Method>Shipping</Method>
+        <DeliveryProvider id="5">Manual Shipping</DeliveryProvider>
+        <DeliveryService id="4">Standard</DeliveryService>
+        <DeliveryPrice>0.00000</DeliveryPrice>
+        <ShippingTax Percentage="0.00000">0.00000</ShippingTax>
+        <ShippingAddress>
+          <IsPickupAddress>0</IsPickupAddress>
+          <Name>Reception</Name>
+          <Company>Flash</Company>
+          <Address1>23 Links Avenue</Address1>
+          <Address2 />
+          <City>Eagle Farm</City>
+          <State>QLD</State>
+          <ZipCode>4099</ZipCode>
+          <Country>AU</Country>
+          <Phone>07 3620 7600</Phone>
+          <Fax />
+          <AddressReference />
+        </ShippingAddress>
+        <DeliveryItems>
+          <DeliveryItem id="2390">
+            <OrderProductId>12741</OrderProductId>
+            <NumberOfUnits>1</NumberOfUnits>
+          </DeliveryItem>
+          <DeliveryItem id="2391">
+            <OrderProductId>12743</OrderProductId>
+            <NumberOfUnits>1</NumberOfUnits>
+          </DeliveryItem>
+        </DeliveryItems>
+      </Delivery>
+    </Deliveries>
+    <OrderProducts>
+      <OrderProduct id="12741" creationDate="2024-07-03T10:44:13.493" Nickname="METCQN24-59_Sign1" OutputToken="78F023BF-F0DE-452D-BAFE-D2EC56E3D702">
+        <Quantities>
+          <NumberOfRecipients>1</NumberOfRecipients>
+          <NumberOfCopies>1</NumberOfCopies>
+          <TotalUnits>1</TotalUnits>
+        </Quantities>
+        <Prices>
+          <FixedPrice>0.00000</FixedPrice>
+          <PricePerRecipient>0.00000</PricePerRecipient>
+          <PricePerUnit>392.83200</PricePerUnit>
+          <Subtotal>392.83200</Subtotal>
+          <MailingPrice>0.00000</MailingPrice>
+          <TotalPrice>392.83200</TotalPrice>
+          <Cost>0.00000</Cost>
+          <Tax Percentage="10.00000">39.28320</Tax>
+        </Prices>
+        <Manufacturer externalId="" />
+        <Deliveries>
+          <Delivery>
+            <Method>Shipping</Method>
+            <DeliveryProvider id="5">Manual Shipping</DeliveryProvider>
+            <DeliveryService id="4">Standard</DeliveryService>
+          </Delivery>
+        </Deliveries>
+        <ProductUnit id="1" itemsAmount="1">Item</ProductUnit>
+        <Product id="2467" externalId="">
+          <Name>Exhibition Item</Name>
+          <CatalogNumber />
+          <Type>DynamicPrint</Type>
+          <Downloadable>true</Downloadable>
+          <Manufacturer externalId="" />
+          <TaxGroup>
+            <Id>1</Id>
+            <Name>Regular Tax</Name>
+            <TaxCode />
+          </TaxGroup>
+        </Product>
+        <DialValues>
+          <DialValue>
+            <Dial id="19005" externalId="">
+              <PlanName>PDFUpload</PlanName>
+              <DisplayName>Upload Artwork</DisplayName>
+            </Dial>
+            <Value>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;FileList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;File&gt;
+    &lt;ID&gt;781c3ea6-e94c-470d-bcd8-927159278ddb&lt;/ID&gt;
+    &lt;DisplayName&gt;METCQN24-59_Sign1-2_2880x2480mm 1.pdf&lt;/DisplayName&gt;
+    &lt;FileName&gt;METCQN24-59_Sign1-2_2880x2480mm 1_781c3ea6-e94c-470d-bcd8-927159278ddb.pdf&lt;/FileName&gt;
+    &lt;Size&gt;67345&lt;/Size&gt;
+  &lt;/File&gt;
+&lt;/FileList&gt;</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19006" externalId="">
+              <PlanName>InitialScriptFileName</PlanName>
+              <DisplayName>InitialScriptFileName</DisplayName>
+            </Dial>
+            <Value>LiquidLayout.jsx</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19007" externalId="">
+              <PlanName>InitialScriptParameter</PlanName>
+              <DisplayName>Page size WxH in mm</DisplayName>
+            </Dial>
+            <Value>2880x2480</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19008" externalId="">
+              <PlanName>PDFFileName</PlanName>
+              <DisplayName>Enter PDF File Name</DisplayName>
+            </Dial>
+            <Value>METCQN24-59_Sign1</Value>
+          </DialValue>
+        </DialValues>
+        <PropertyValues>
+          <PropertyValue>
+            <Property id="19002" externalId="">
+              <DisplayName>Base</DisplayName>
+            </Property>
+            <Value />
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="19003" externalId="">
+              <DisplayName>Exponet Stock Options</DisplayName>
+            </Property>
+            <Value>Exponet Fabric - Block-out Standard</Value>
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="19004" externalId="">
+              <DisplayName>Exponet Size</DisplayName>
+            </Property>
+            <Value>2880mm x 2480mm</Value>
+          </PropertyValue>
+        </PropertyValues>
+      </OrderProduct>
+      <OrderProduct id="12743" creationDate="2024-07-03T10:46:00.003" Nickname="METCQN24-59_Sign 2" OutputToken="5C319817-3005-446C-A527-B643F06F7B6B">
+        <Quantities>
+          <NumberOfRecipients>1</NumberOfRecipients>
+          <NumberOfCopies>1</NumberOfCopies>
+          <TotalUnits>1</TotalUnits>
+        </Quantities>
+        <Prices>
+          <FixedPrice>0.00000</FixedPrice>
+          <PricePerRecipient>0.00000</PricePerRecipient>
+          <PricePerUnit>392.83200</PricePerUnit>
+          <Subtotal>392.83200</Subtotal>
+          <MailingPrice>0.00000</MailingPrice>
+          <TotalPrice>392.83200</TotalPrice>
+          <Cost>0.00000</Cost>
+          <Tax Percentage="10.00000">39.28320</Tax>
+        </Prices>
+        <Manufacturer externalId="" />
+        <Deliveries>
+          <Delivery>
+            <Method>Shipping</Method>
+            <DeliveryProvider id="5">Manual Shipping</DeliveryProvider>
+            <DeliveryService id="4">Standard</DeliveryService>
+          </Delivery>
+        </Deliveries>
+        <ProductUnit id="1" itemsAmount="1">Item</ProductUnit>
+        <Product id="2467" externalId="">
+          <Name>Exhibition Item</Name>
+          <CatalogNumber />
+          <Type>DynamicPrint</Type>
+          <Downloadable>true</Downloadable>
+          <Manufacturer externalId="" />
+          <TaxGroup>
+            <Id>1</Id>
+            <Name>Regular Tax</Name>
+            <TaxCode />
+          </TaxGroup>
+        </Product>
+        <DialValues>
+          <DialValue>
+            <Dial id="19005" externalId="">
+              <PlanName>PDFUpload</PlanName>
+              <DisplayName>Upload Artwork</DisplayName>
+            </Dial>
+            <Value>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;FileList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;File&gt;
+    &lt;ID&gt;3bc9554e-13bb-4349-94ef-8957b6d55682&lt;/ID&gt;
+    &lt;DisplayName&gt;METCQN24-59_Sign1-2_2880x2480mm 2.pdf&lt;/DisplayName&gt;
+    &lt;FileName&gt;METCQN24-59_Sign1-2_2880x2480mm 2_3bc9554e-13bb-4349-94ef-8957b6d55682.pdf&lt;/FileName&gt;
+    &lt;Size&gt;113082&lt;/Size&gt;
+  &lt;/File&gt;
+&lt;/FileList&gt;</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19006" externalId="">
+              <PlanName>InitialScriptFileName</PlanName>
+              <DisplayName>InitialScriptFileName</DisplayName>
+            </Dial>
+            <Value>LiquidLayout.jsx</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19007" externalId="">
+              <PlanName>InitialScriptParameter</PlanName>
+              <DisplayName>Page size WxH in mm</DisplayName>
+            </Dial>
+            <Value>2880x2480</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="19008" externalId="">
+              <PlanName>PDFFileName</PlanName>
+              <DisplayName>Enter PDF File Name</DisplayName>
+            </Dial>
+            <Value>METCQN24-59_Sign 2</Value>
+          </DialValue>
+        </DialValues>
+        <PropertyValues>
+          <PropertyValue>
+            <Property id="19002" externalId="">
+              <DisplayName>Base</DisplayName>
+            </Property>
+            <Value />
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="19003" externalId="">
+              <DisplayName>Exponet Stock Options</DisplayName>
+            </Property>
+            <Value>Exponet Fabric - Block-out Standard</Value>
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="19004" externalId="">
+              <DisplayName>Exponet Size</DisplayName>
+            </Property>
+            <Value>2880mm x 2480mm</Value>
+          </PropertyValue>
+        </PropertyValues>
+      </OrderProduct>
+    </OrderProducts>
+    <Clearing type="Invoice">
+      <Value>
+        <NoClearing />
+      </Value>
+    </Clearing>
+  </Order>
+</OrderXml>

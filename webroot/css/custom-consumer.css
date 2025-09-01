@@ -1,0 +1,8 @@
+body {
+    background-color: rgb(255, 255, 234) !important;
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: rgb(255, 255, 234) !important;
+}

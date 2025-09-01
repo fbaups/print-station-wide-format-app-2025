@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OrderXml>
+  <Order OrderId="5897" DisplayOrderId="27985" CreationDate="2024-05-08T09:05:47.143" cartCreationdDate="2024-05-07T11:49:00.297" orderSubmissionDate="2024-05-08T09:05:47.110" orderSubmissionId="462" primaryCurrency="AUD">
+    <Prices>
+      <Subtotal>349.97760</Subtotal>
+      <ShippingPrice>0.00000</ShippingPrice>
+      <MailingPrice>0.00000</MailingPrice>
+      <Tax>35.00000</Tax>
+      <Taxes RoundingAmount="0.00" Amount="35.00">
+        <Tax Name="GST" DisplayName="GST" Percentage="10.00000">34.9977600000</Tax>
+      </Taxes>
+      <CouponDiscount CouponID="0">0.00000</CouponDiscount>
+      <TotalPrice>384.97760</TotalPrice>
+      <Cost>0.00000</Cost>
+    </Prices>
+    <Store Id="37" externalId="" LandingDomain="flashexhibtions.ezportal.com.au">
+      <Currency>AUD</Currency>
+      <PickupAddress />
+    </Store>
+    <User UserId="3" externalId="">
+      <FirstName>Dan</FirstName>
+      <LastName>Ries</LastName>
+      <Email>dan@connect1to1.com.au</Email>
+      <Phone />
+      <Mobile>0450 921 850</Mobile>
+      <Fax />
+      <Company>Connect 1to1</Company>
+      <Department />
+      <JobTitle>General Manager</JobTitle>
+    </User>
+    <BillingAddress>
+      <Name>Accounts Payable</Name>
+      <Company>Connect 1to1</Company>
+      <Address1>PO Box 131</Address1>
+      <Address2 />
+      <City>Newport</City>
+      <State>NSW</State>
+      <ZipCode>2106</ZipCode>
+      <Country>AU</Country>
+      <Phone>02 9999 9999</Phone>
+      <Fax />
+      <AddressReference />
+    </BillingAddress>
+    <Deliveries>
+      <Delivery>
+        <Method>Shipping</Method>
+        <DeliveryProvider id="5">Manual Shipping</DeliveryProvider>
+        <DeliveryService id="4">Standard</DeliveryService>
+        <DeliveryPrice>0.00000</DeliveryPrice>
+        <ShippingTax Percentage="0.00000">0.00000</ShippingTax>
+        <ShippingAddress>
+          <IsPickupAddress>0</IsPickupAddress>
+          <Name>Dan Ries</Name>
+          <Company>Connect 1to1 Pty Ltd.</Company>
+          <Address1>210 Powderworks Road</Address1>
+          <Address2 />
+          <City>Elanora Heights</City>
+          <State>NSW</State>
+          <ZipCode>2101</ZipCode>
+          <Country>AU</Country>
+          <Phone>0450 921 850</Phone>
+          <Fax />
+          <AddressReference />
+        </ShippingAddress>
+        <DeliveryItems>
+          <DeliveryItem id="2002">
+            <OrderProductId>10624</OrderProductId>
+            <NumberOfUnits>1</NumberOfUnits>
+          </DeliveryItem>
+        </DeliveryItems>
+      </Delivery>
+    </Deliveries>
+    <OrderProducts>
+      <OrderProduct id="10624" creationDate="2024-05-08T08:59:26.370" OutputToken="A371ABE4-ADE5-452E-BCEB-712305BCE6B1">
+        <Quantities>
+          <NumberOfRecipients>1</NumberOfRecipients>
+          <NumberOfCopies>1</NumberOfCopies>
+          <TotalUnits>1</TotalUnits>
+        </Quantities>
+        <Prices>
+          <FixedPrice>0.00000</FixedPrice>
+          <PricePerRecipient>0.00000</PricePerRecipient>
+          <PricePerUnit>349.97760</PricePerUnit>
+          <Subtotal>349.97760</Subtotal>
+          <MailingPrice>0.00000</MailingPrice>
+          <TotalPrice>349.97760</TotalPrice>
+          <Cost>0.00000</Cost>
+          <Tax Percentage="10.00000">34.99776</Tax>
+        </Prices>
+        <Manufacturer externalId="" />
+        <Deliveries>
+          <Delivery>
+            <Method>Shipping</Method>
+            <DeliveryProvider id="5">Manual Shipping</DeliveryProvider>
+            <DeliveryService id="4">Standard</DeliveryService>
+          </Delivery>
+        </Deliveries>
+        <ProductUnit id="1" itemsAmount="1">Item</ProductUnit>
+        <Product id="2437" externalId="">
+          <Name>Resize Test V2</Name>
+          <CatalogNumber />
+          <Type>DynamicPrint</Type>
+          <Downloadable>false</Downloadable>
+          <Manufacturer externalId="" />
+          <TaxGroup>
+            <Id>1</Id>
+            <Name>Regular Tax</Name>
+            <TaxCode />
+          </TaxGroup>
+        </Product>
+        <DialValues>
+          <DialValue>
+            <Dial id="18719" externalId="">
+              <PlanName>ShowName</PlanName>
+              <DisplayName>Show Name</DisplayName>
+            </Dial>
+            <Value>APP 2024</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18720" externalId="">
+              <PlanName>Client</PlanName>
+              <DisplayName>Client</DisplayName>
+            </Dial>
+            <Value>LocumCo</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18721" externalId="">
+              <PlanName>StandNumber</PlanName>
+              <DisplayName>Stand Number</DisplayName>
+            </Dial>
+            <Value>S-APPQQQ24-6</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18722" externalId="">
+              <PlanName>JobID</PlanName>
+              <DisplayName>Job ID</DisplayName>
+            </Dial>
+            <Value>MLQ74306</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18723" externalId="">
+              <PlanName>Product</PlanName>
+              <DisplayName>Product</DisplayName>
+            </Dial>
+            <Value>Tuffline fabric with Exponet silicone edging</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18724" externalId="">
+              <PlanName>PDFUpload</PlanName>
+              <DisplayName>Upload Artwork</DisplayName>
+            </Dial>
+            <Value>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;FileList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;File&gt;
+    &lt;ID&gt;cebd1cb3-f6d4-48f6-b89b-ad3a8124508c&lt;/ID&gt;
+    &lt;DisplayName&gt;SOLAQN24-1 Supply Partners 4 2971x2971.pdf&lt;/DisplayName&gt;
+    &lt;FileName&gt;SOLAQN24-1 Supply Partners 4 2971x2971_cebd1cb3-f6d4-48f6-b89b-ad3a8124508c.pdf&lt;/FileName&gt;
+    &lt;Size&gt;293631&lt;/Size&gt;
+  &lt;/File&gt;
+&lt;/FileList&gt;</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18725" externalId="">
+              <PlanName>InitialScriptFileName</PlanName>
+              <DisplayName>InitialScriptFileName</DisplayName>
+            </Dial>
+            <Value>LiquidLayout.jsx</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18726" externalId="">
+              <PlanName>InitialScriptParameter</PlanName>
+              <DisplayName>Page size WxH in mm</DisplayName>
+            </Dial>
+            <Value>2971x2971</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18727" externalId="">
+              <PlanName>LaserLine</PlanName>
+              <DisplayName>Show Laser Line</DisplayName>
+            </Dial>
+            <Value>False</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18728" externalId="">
+              <PlanName>TFL14mm_100</PlanName>
+              <DisplayName>Show TFL1 4mm</DisplayName>
+            </Dial>
+            <Value>True</Value>
+          </DialValue>
+          <DialValue>
+            <Dial id="18729" externalId="">
+              <PlanName>FrontPVRubber</PlanName>
+              <DisplayName>Show Front PV Rubber</DisplayName>
+            </Dial>
+            <Value>False</Value>
+          </DialValue>
+        </DialValues>
+        <PropertyValues>
+          <PropertyValue>
+            <Property id="18716" externalId="">
+              <DisplayName>Base</DisplayName>
+            </Property>
+            <Value />
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="18717" externalId="">
+              <DisplayName>Exponet Stock Options</DisplayName>
+            </Property>
+            <Value>Exponet Fabric - Stretch Standard</Value>
+          </PropertyValue>
+          <PropertyValue>
+            <Property id="18718" externalId="">
+              <DisplayName>Exponet Size</DisplayName>
+            </Property>
+            <Value>2880mm x 2480mm</Value>
+          </PropertyValue>
+        </PropertyValues>
+      </OrderProduct>
+    </OrderProducts>
+    <Clearing type="Invoice">
+      <Value>
+        <NoClearing />
+      </Value>
+    </Clearing>
+  </Order>
+</OrderXml>

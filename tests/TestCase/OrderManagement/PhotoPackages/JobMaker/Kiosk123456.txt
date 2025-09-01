@@ -1,0 +1,55 @@
+[OrderInfo]
+Order_ID=123456
+ImagePath=\\localhost\GenericRepo\_TestPhotos\
+CD=2
+Printer=LP7600B
+Surface=Glossy-1
+AutoCorrect=1
+CustomerName=David Smith
+Phone=+610400123456
+Email=davidsmith@example.com
+DueTime=05/07/2025 12:12:12 PM
+Express=1
+
+[ImageInfo]
+ImageFile=Chrysanthemum.jpg
+BackPrint=David Smith/Chrysanthemum.JPG/Mar05/Retailer Name
+    [Print]
+    PrintCode=6x4
+
+[ImageInfo]
+ImageFile=Desert.jpg
+BackPrint=David Smith/Desert.JPG/Mar05/Retailer Name
+    [Print]
+    PrintCode=5x7
+    PrintQty=2
+    [Print]
+    PrintCode=6x4
+    PrintQty=1
+
+[ImageInfo]
+ImageFile=Hydrangeas.jpg
+BackPrint=David Smith/Hydrangeas.JPG/Mar05/Retailer Name
+    [Print]
+    PrintCode=6x4
+    PrintQty=2
+
+[ImageInfo]
+ImageFile=Jellyfish.jpg
+BackPrint=David Smith/Jellyfish.JPG/Mar05/Retailer Name
+    [Print]
+    PrintCode=6x4
+    PrintQty=2
+
+[ImageInfo]
+OriginalPath=\\localhost\GenericRepo\_TestPhotos\Koala.jpg
+
+[ImageInfo]
+OriginalPath=\\localhost\GenericRepo\_TestPhotos\Lighthouse.jpg
+
+[ImageInfo]
+OriginalPath=\\localhost\GenericRepo\_TestPhotos\Penguins.jpg
+
+[ImageInfo]
+OriginalPath=\\localhost\GenericRepo\_TestPhotos\Tulips.jpg
+

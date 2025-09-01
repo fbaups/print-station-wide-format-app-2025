@@ -1,0 +1,175 @@
+bin\cake bake migration_diff NameOfTheMigrations --connection my_other_connection
+bin\cake migrations dump
+
+--run all migrations in the CLI
+bin\cake migrations migrate
+
+
+--You can bake the following to see how mass data looks in the GUI--
+bin\cake bake model foo_authors -f
+bin\cake bake model foo_recipes -f
+bin\cake bake model foo_ingredients -f
+bin\cake bake model foo_methods -f
+bin\cake bake model foo_tags -f
+bin\cake bake model foo_ratings -f
+
+bin\cake bake controller foo_authors -f
+bin\cake bake controller foo_recipes -f
+bin\cake bake controller foo_ingredients -f
+bin\cake bake controller foo_methods -f
+bin\cake bake controller foo_tags -f
+bin\cake bake controller foo_ratings -f
+
+bin\cake bake template foo_authors -f
+bin\cake bake template foo_recipes -f
+bin\cake bake template foo_ingredients -f
+bin\cake bake template foo_methods -f
+bin\cake bake template foo_tags -f
+bin\cake bake template foo_ratings -f
+--------------------------------------------------------------------
+
+
+bin\cake bake model ArtifactMetadata -f
+
+bin\cake bake model artifacts -f
+bin\cake bake controller artifacts -f
+bin\cake bake template artifacts -f
+
+bin\cake bake model application_logs -f
+bin\cake bake controller application_logs -f
+bin\cake bake template application_logs -f
+
+bin\cake bake model audits -f
+bin\cake bake controller audits -f
+bin\cake bake template audits -f
+
+bin\cake bake model seeds -f
+bin\cake bake controller seeds -f
+bin\cake bake template seeds -f
+
+
+bin\cake bake model errands -f
+bin\cake bake controller errands -f
+bin\cake bake template errands -f
+
+
+bin\cake bake model seeds -f
+bin\cake bake controller seeds -f
+bin\cake bake template seeds -f
+
+
+bin\cake bake model workers -f
+bin\cake bake controller workers -f
+bin\cake bake template workers -f
+
+bin\cake bake model heartbeats -f
+bin\cake bake controller heartbeats -f
+bin\cake bake template heartbeats -f
+
+bin\cake bake model messages -f
+bin\cake bake controller messages -f
+bin\cake bake template messages -f
+
+bin\cake bake model message_beacons -f
+bin\cake bake model message_connections -f
+
+bin\cake bake model users -f
+bin\cake bake controller users -f
+bin\cake bake template users -f
+
+bin\cake bake model user_statuses -f
+bin\cake bake model user_localizations -f
+bin\cake bake model roles_users -f
+
+bin\cake bake model roles -f
+bin\cake bake controller roles -f
+bin\cake bake template roles -f
+
+bin\cake bake model hot_folders -f
+bin\cake bake controller hot_folders -f
+bin\cake bake template hot_folders -f
+
+bin\cake bake model hot_folder_entries -f
+bin\cake bake controller hot_folder_entries -f
+bin\cake bake template hot_folder_entries -f
+
+bin\cake bake model scheduled_tasks -f
+bin\cake bake controller scheduled_tasks -f
+bin\cake bake template scheduled_tasks -f
+
+
+
+bin\cake bake model document_alerts -f
+bin\cake bake model document_properties -f
+bin\cake bake model document_status_movements -f
+bin\cake bake model document_statuses -f
+bin\cake bake model documents_users -f
+bin\cake bake model documents -f
+bin\cake bake model job_alerts -f
+bin\cake bake model job_properties -f
+bin\cake bake model job_status_movements -f
+bin\cake bake model job_statuses -f
+bin\cake bake model jobs_users -f
+bin\cake bake model jobs -f
+bin\cake bake model order_alerts -f
+bin\cake bake model order_properties -f
+bin\cake bake model order_status_movements -f
+bin\cake bake model order_statuses -f
+bin\cake bake model orders_users -f
+bin\cake bake model orders -f
+
+
+bin\cake bake controller documents -f
+bin\cake bake template documents -f
+
+bin\cake bake controller jobs -f
+bin\cake bake template jobs -f
+
+bin\cake bake controller orders -f
+bin\cake bake template orders -f
+
+bin\cake bake model output_processors -f
+bin\cake bake controller output_processors -f
+bin\cake bake template output_processors -f
+
+bin\cake bake model integration_credentials -f
+bin\cake bake controller integration_credentials -f
+bin\cake bake template integration_credentials -f
+
+bin\cake bake model articles -f
+bin\cake bake model article_statuses -f
+bin\cake bake controller articles -f
+bin\cake bake template articles -f
+
+
+
+bin\cake bake model code_watcher_files -f
+bin\cake bake model code_watcher_folders -f
+bin\cake bake model code_watcher_projects -f
+bin\cake bake controller code_watcher_projects -f
+bin\cake bake template code_watcher_projects -f
+
+bin\cake bake model roles_subscriptions -f
+bin\cake bake model subscriptions -f
+bin\cake bake controller subscriptions -f
+bin\cake bake template subscriptions -f
+
+
+bin\cake bake model data_blobs -f
+
+bin\cake bake model media_clips -f
+bin\cake bake controller media_clips -f
+bin\cake bake template media_clips -f
+
+bin\cake bake model theatre_pins -f
+bin\cake bake controller theatre_pins -f
+bin\cake bake template theatre_pins -f
+
+bin\cake bake model xmpie_uproduce_compositions -f
+bin\cake bake model xmpie_uproduce_composition_jobs -f
+bin\cake bake model xmpie_uproduce_composition_job_callbacks -f
+
+bin\cake bake controller xmpie_uproduce_compositions -f
+bin\cake bake template xmpie_uproduce_compositions -f
+
+

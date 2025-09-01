@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <rule name="Exclude direct access to webroot/*" stopProcessing="true">
+                    <match url="^webroot/(.*)$" ignoreCase="false" />
+                    <action type="None" />
+                </rule>
+                <rule name="Rewrite routed access to specific files" stopProcessing="true">
+                    <match url="^(favicon.ico|robots.txt|favicon-16x16.png|favicon-32x32.png|site.webmanifest|apple-touch-icon.png|android-chrome-192x192.png|android-chrome-512x512.png)(.*)$" />
+                    <action type="Rewrite" url="webroot/{R:1}{R:2}" appendQueryString="false" />
+                </rule>
+                <rule name="Rewrite routed access to assets (img, css, files, js)" stopProcessing="true">
+                    <match url="^(assets|font|img|css|files|js|vendors)(.*)$" />
+                    <action type="Rewrite" url="webroot/{R:1}{R:2}" appendQueryString="false" />
+                </rule>
+                <rule name="Rewrite routed access to docs folder" stopProcessing="true">
+                    <match url="^(docs)(.*)$" />
+                    <action type="Rewrite" url="{R:1}{R:2}" appendQueryString="false" />
+                </rule>
+                <rule name="Rewrite routed access to repository folder" stopProcessing="true">
+                    <match url="^(repository)(.*)$" />
+                    <action type="Rewrite" url="{R:1}{R:2}" appendQueryString="false" />
+                </rule>
+                <rule name="Rewrite requested file/folder to index.php" stopProcessing="true">
+                    <match url="^(.*)$" ignoreCase="false" />
+                    <action type="Rewrite" url="index.php" appendQueryString="true" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
