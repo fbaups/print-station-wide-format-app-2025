@@ -112,7 +112,10 @@ class Connection
         }
 
         //relax $verify if localhost address
-        $localhostAddresses = ['127.0.0.1', 'localhost', 'repo.pswf', 'app.pswf'];
+        $localhostAddresses = ['127.0.0.1', 'localhost', 'repo.pswf', 'app.pswf', 'pswf.local'];
+        /* START_BLOCKED_CODE */
+        $localhostAddresses[] = 'print-station-wide-format-app-2025.codeworthy.name';
+        /* END_BLOCKED_CODE */
         $host = parse_url($url)['host'];
         if (in_array($host, $localhostAddresses)) {
             $verify = false;
