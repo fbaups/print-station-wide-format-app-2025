@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
@@ -446,8 +447,10 @@ class ErrandsTable extends AppTable
 
     private function getDefaultErrandOptions(): array
     {
-        $defaultActivation = new DateTime();
-        $defaultExpiration = new DateTime('+ ' . Configure::read('Settings.data_purge') . ' months');
+        /** @var SettingsTable $Settings */
+        $Settings = TableRegistry::getTableLocator()->get('Settings');
+        $defaultActivation = $Settings->getDefaultActivationDate();
+        $defaultExpiration = $Settings->getDefaultExpirationDate();
         $errandRetryLimit = Configure::read("Settings.errand_background_service_retry_limit");
 
         $defaultOptions = [

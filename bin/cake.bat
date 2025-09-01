@@ -20,7 +20,7 @@
 SET app=%0
 SET lib=%~dp0
 
-"C:\Program Files\PHP\v8.2\php.exe" "%lib%cake.php" %*
+"C:\Program Files\PHP\v8.3\php.exe" "%lib%cake.php" %*
 
 echo.
 

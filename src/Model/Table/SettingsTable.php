@@ -526,8 +526,7 @@ class SettingsTable extends AppTable
     }
 
     /**
-     * Return a DateTime object for the default expiration date.
-     * Date is based on the data_purge setting.
+     * Return a DateTime object for the default activation date.
      *
      * @return DateTime
      */
@@ -546,16 +545,23 @@ class SettingsTable extends AppTable
      */
     public function getDefaultExpirationDate(): DateTime
     {
-        $days = $this->getSetting('data_purge');
+        $lengthOfTime = $this->getSetting('data_purge');
 
-        //fallback
-        if ($days <= 0) {
-            $days = 365 * 10;
+        //fallback for empty value
+        if ($lengthOfTime <= 0 || empty($lengthOfTime)) {
+            return (new DateTime("+1 year"))->endOfDay();
         }
 
-        $frozenTimeObj = (new DateTime('+' . $days . ' days'))->endOfDay();
+        //historically the length of time was an integer of months
+        if (is_numeric($lengthOfTime)) {
+            return (new DateTime('+' . $lengthOfTime . ' months'))->endOfDay();
+        }
 
-        return $frozenTimeObj;
+        try {
+            return (new DateTime($lengthOfTime))->endOfDay();
+        } catch (\Throwable $exception) {
+            return (new DateTime("+1 year"))->endOfDay();
+        }
     }
 
     /**
