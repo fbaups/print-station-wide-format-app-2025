@@ -1,6 +1,6 @@
 {
     "name": "PrintStationWideFormat",
-    "tag": "0.1.7",
-    "desc": "Small fixes to GUI.",
+    "tag": "0.1.8",
+    "desc": "Forced reduction of job retention time",
     "codename": ""
 }

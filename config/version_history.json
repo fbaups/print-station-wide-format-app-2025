@@ -172,5 +172,13 @@
         "codename": "",
         "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250223_233555_PrintStationWideFormat_v0.1.7.zip",
         "release_date": "20250223_233555"
+    },
+    {
+        "name": "PrintStationWideFormat",
+        "tag": "0.1.8",
+        "desc": "Forced reduction of job retention time",
+        "codename": "",
+        "installer_url": "https:\/\/f004.backblazeb2.com\/file\/FBAU-GCS-PS-PRINT-STATION-WIDE-FORMAT\/20250901_052728_PrintStationWideFormat_v0.1.8.zip",
+        "release_date": "20250901_052728"
     }
 ]
