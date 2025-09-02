@@ -177,13 +177,16 @@ class AppController extends Controller
         }
 
         //do some stuff for the view
-        $Session = $this->request->getSession();
-        $xmpCredentialsCount = ($Session->read('IntegrationCredentials.XMPie-uProduce.count'));
-        if (!$xmpCredentialsCount) {
-            /** @var InternalOptionsTable $IC */
-            $IC = \Cake\ORM\TableRegistry::getTableLocator()->get('IntegrationCredentials');
-            $xmpCredentialsCount = $IC->find('all')->where(['type' => 'XMPie-uProduce', 'is_enabled' => true])->count();
-            $Session->write('IntegrationCredentials.XMPie-uProduce.count', $xmpCredentialsCount);
+        try {
+            $Session = $this->request->getSession();
+            $xmpCredentialsCount = ($Session->read('IntegrationCredentials.XMPie-uProduce.count'));
+            if (!$xmpCredentialsCount) {
+                /** @var InternalOptionsTable $IC */
+                $IC = \Cake\ORM\TableRegistry::getTableLocator()->get('IntegrationCredentials');
+                $xmpCredentialsCount = $IC->find('all')->where(['type' => 'XMPie-uProduce', 'is_enabled' => true])->count();
+                $Session->write('IntegrationCredentials.XMPie-uProduce.count', $xmpCredentialsCount);
+            }
+        } catch (\Throwable) {
         }
 
     }
