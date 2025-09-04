@@ -63,8 +63,8 @@ class AppController extends Controller
 
     protected Auditor $Auditor;
 
-    //protected AuthenticationComponent $Authentication;
-    //protected AuthUserComponent $AuthUser;
+    protected AuthenticationComponent|null $Authentication = null;
+    protected AuthenticationBridgeComponent|null $AuthenticationBridge = null;
 
     protected ConnectionInterface $Connection;
     protected string|null $connectionDriver = null;
@@ -145,14 +145,14 @@ class AppController extends Controller
             }
         }
 
-        if (@$this->Authentication && @isset($this->Users)) {
+        if ($this->Authentication !== null && isset($this->Users)) {
             $identity = $this->Authentication->getIdentity();
             if ($identity) {
                 $usersSessionData = $this->Users->getExtendedUserSessionData($identity->id);
                 // Set _authUser variable that TinyAuth templates expect
                 $this->set('_authUser', $usersSessionData);
                 // Create AuthUser bridge object
-                if (isset($this->AuthenticationBridge)) {
+                if ($this->AuthenticationBridge !== null) {
                     $authUserHelper = $this->AuthenticationBridge->createAuthUserBridge($usersSessionData);
                 } else {
                     // Fallback: create bridge object directly
@@ -361,7 +361,7 @@ class AppController extends Controller
 
         //if User is logged in, configure the App for the User
         $userLocalizations = [];
-        if (isset($this->Authentication)) {
+        if ($this->Authentication !== null) {
             $identity = $this->Authentication->getIdentity();
             if ($identity) {
                 // Convert identity to array for backward compatibility
@@ -464,7 +464,7 @@ class AppController extends Controller
         // Ensure component properties are set before using them
         $this->ensureComponentProperties();
 
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             $this->AuthenticationBridge->configureSessionTracker();
         }
     }
@@ -476,12 +476,12 @@ class AppController extends Controller
     private function ensureComponentProperties(): void
     {
         // Ensure AuthenticationBridge property is set if component is loaded
-        if (!isset($this->AuthenticationBridge) && $this->components()->has('AuthenticationBridge')) {
+        if ($this->AuthenticationBridge === null && $this->components()->has('AuthenticationBridge')) {
             $this->AuthenticationBridge = $this->components()->get('AuthenticationBridge');
         }
 
         // Ensure Authentication property is set if component is loaded
-        if (!isset($this->Authentication) && $this->components()->has('Authentication')) {
+        if ($this->Authentication === null && $this->components()->has('Authentication')) {
             $this->Authentication = $this->components()->get('Authentication');
         }
     }
@@ -494,12 +494,12 @@ class AppController extends Controller
      */
     protected function getCurrentUserId(): ?int
     {
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             return $this->AuthenticationBridge->getCurrentUserId();
         }
 
         // Fallback: direct Authentication component access
-        if (isset($this->Authentication)) {
+        if ($this->Authentication !== null) {
             $identity = $this->Authentication->getIdentity();
             return $identity ? $identity->id : null;
         }
@@ -512,12 +512,12 @@ class AppController extends Controller
      */
     protected function getCurrentUserRoles(): array
     {
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             return $this->AuthenticationBridge->getCurrentUserRoles();
         }
 
         // Fallback: direct Authentication component access
-        if (isset($this->Authentication)) {
+        if ($this->Authentication !== null) {
             $identity = $this->Authentication->getIdentity();
             if (! $identity || ! isset($identity->roles)) {
                 return [];
@@ -546,7 +546,7 @@ class AppController extends Controller
      */
     protected function currentUserHasRoles(array $roleNames): bool
     {
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             return $this->AuthenticationBridge->currentUserHasRoles($roleNames);
         }
 
@@ -561,12 +561,12 @@ class AppController extends Controller
      */
     protected function getCurrentUser(): ?array
     {
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             return $this->AuthenticationBridge->getCurrentUser();
         }
 
         // Fallback: direct Authentication component access
-        if (isset($this->Authentication)) {
+        if ($this->Authentication !== null) {
             $identity = $this->Authentication->getIdentity();
             if (! $identity) {
                 return null;
@@ -591,12 +591,12 @@ class AppController extends Controller
      */
     protected function currentUserHasAccess(array $url): bool
     {
-        if (isset($this->AuthenticationBridge)) {
+        if ($this->AuthenticationBridge !== null) {
             return $this->AuthenticationBridge->currentUserHasAccess($url);
         }
 
         // Fallback: basic access check
-        if (isset($this->Authentication)) {
+        if ($this->Authentication !== null) {
             $identity = $this->Authentication->getIdentity();
             if (! $identity) {
                 return false;
