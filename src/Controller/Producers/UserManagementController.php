@@ -49,6 +49,11 @@ class UserManagementController extends AppController
     {
         parent::beforeFilter($event);
 
+        // Skip authorization - TinyAuth middleware handles this
+        if (isset($this->Authorization)) {
+            $this->Authorization->skipAuthorization();
+        }
+
         //prevent some actions from needing CSRF Token validation for AJAX requests
         //$this->FormProtection->setConfig('unlockedActions', ['edit']);
         $this->FormProtection->setConfig('unlockedActions', ['index']); //allow index for DataTables index refresh
@@ -77,7 +82,7 @@ class UserManagementController extends AppController
      */
     public function profile(): ?Response
     {
-        $id = $this->Auth->user('id');
+        $id = $this->getCurrentUserId();
         $user = $this->Users->get($id, contain: ['UserStatuses', 'Roles', 'UserLocalizations', 'Subscriptions']);
 
         $allSubscriptions = $this->Subscriptions->findAllSubscriptions();
@@ -144,7 +149,7 @@ class UserManagementController extends AppController
 
             if ($this->Users->save($user)) {
                 $userDetails = $user->toArray();
-                $this->Auth->setUser($userDetails);
+                $this->Authentication->setIdentity($userDetails);
 
                 $this->Flash->success(__('Your profile has been updated.'));
                 return $this->redirect("/");

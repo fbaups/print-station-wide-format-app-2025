@@ -61,8 +61,8 @@ if ($coreLib['bootstrap']) {
 }
 
 if ($coreLib['datatables']) {
-    echo $this->Html->css(['/vendors/datatables/dataTables']);
-    echo $this->Html->script(['/vendors/datatables/dataTables']);
+    echo $this->Html->css(['/vendors/datatables/datatables']);
+    echo $this->Html->script(['/vendors/datatables/datatables']);
 }
 
 if ($coreLib['dropzone']) {
@@ -82,12 +82,25 @@ echo $this->Html->script(['scripts']);
 echo $this->Html->css(['custom']); //custom override
 
 //custom style based on the User's Role
-if (($this->AuthUser) && @$this->AuthUser instanceof ExtendedAuthUserHelper) {
-    if ($this->AuthUser->hasRoles(['superadmin', 'admin'])) {
+$identity = $this->getRequest()->getAttribute('identity');
+if ($identity && isset($usersSessionData['roles'])) {
+    // Extract role names from role objects/arrays
+    $roleNames = [];
+    foreach ($usersSessionData['roles'] as $role) {
+        if (is_array($role)) {
+            $roleNames[] = $role['name'] ?? $role['alias'] ?? '';
+        } elseif (is_object($role)) {
+            $roleNames[] = $role->name ?? $role->alias ?? '';
+        } else {
+            $roleNames[] = $role; // Already a string
+        }
+    }
+
+    if (array_intersect($roleNames, ['superadmin', 'admin'])) {
         echo $this->Html->css(['custom-administrator']);
-    } elseif ($this->AuthUser->hasRoles(['manager', 'supervisor', 'operator'])) {
+    } elseif (array_intersect($roleNames, ['manager', 'supervisor', 'operator'])) {
         echo $this->Html->css(['custom-producer']);
-    } elseif ($this->AuthUser->hasRoles(['superuser', 'user'])) {
+    } elseif (array_intersect($roleNames, ['superuser', 'user'])) {
         echo $this->Html->css(['custom-consumer']);
     }
 }

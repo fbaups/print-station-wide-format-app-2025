@@ -57,7 +57,7 @@ class TheatreController extends AppController
         }
 
         //auto-set the PIN.state if the user is Authenticated
-        if ($this->Auth->user()) {
+        if ($this->Authentication->getIdentity()) {
             $this->request->getSession()->write('PIN.state', true);
         }
 

@@ -36,6 +36,11 @@ class ArticlesController extends AppController
     {
         parent::beforeFilter($event);
 
+        // Skip authorization - TinyAuth middleware handles this
+        if (isset($this->Authorization)) {
+            $this->Authorization->skipAuthorization();
+        }
+
         //prevent some actions from needing CSRF Token validation for AJAX requests
         //$this->FormProtection->setConfig('unlockedActions', ['edit']);
         $this->FormProtection->setConfig('unlockedActions', ['index']); //allow index for DataTables index refresh
@@ -151,7 +156,7 @@ class ArticlesController extends AppController
         $article = $this->Articles->newEmptyEntity();
         if ($this->request->is('post')) {
             $data = $this->request->getData();
-            $data['user_link'] = $this->AuthUser->id();
+            $data['user_link'] = $this->getCurrentUserId();
             $article = $this->Articles->patchEntity($article, $data);
             $article = $this->Articles->reformatEntity($article);
 
@@ -183,7 +188,7 @@ class ArticlesController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
-            $data['user_link'] = $this->AuthUser->id();
+            $data['user_link'] = $this->getCurrentUserId();
             $article = $this->Articles->patchEntity($article, $data);
             $article = $this->Articles->reformatEntity($article);
 

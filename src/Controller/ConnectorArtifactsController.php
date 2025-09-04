@@ -237,7 +237,7 @@ class ConnectorArtifactsController extends AppController
      */
     public function fetch($token = null, $namePlaceholder = null): Response
     {
-        if (!$this->Auth->user()) {
+        if (!$this->Authentication->getIdentity()) {
             $this->addDangerAlerts(__('Invalid User'));
             $responseData = ['status' => $this->getHighestAlertLevel(), 'alerts' => $this->getAllAlertsLogSequence()];
             $responseData = json_encode($responseData, JSON_PRETTY_PRINT);
@@ -278,7 +278,7 @@ class ConnectorArtifactsController extends AppController
      */
     public function sample($token = null, $size = 'thumbnail', $namePlaceholder = null): Response
     {
-        if (!$this->Auth->user()) {
+        if (!$this->Authentication->getIdentity()) {
             $this->addDangerAlerts(__('Invalid User'));
             $responseData = ['status' => $this->getHighestAlertLevel(), 'alerts' => $this->getAllAlertsLogSequence()];
             $responseData = json_encode($responseData, JSON_PRETTY_PRINT);
@@ -345,7 +345,7 @@ class ConnectorArtifactsController extends AppController
      */
     public function lightTable($token = null, $pageNumber = null, $namePlaceholder = null): Response
     {
-        if (!$this->Auth->user()) {
+        if (!$this->Authentication->getIdentity()) {
             $this->addDangerAlerts(__('Invalid User'));
             $responseData = ['status' => $this->getHighestAlertLevel(), 'alerts' => $this->getAllAlertsLogSequence()];
             $responseData = json_encode($responseData, JSON_PRETTY_PRINT);

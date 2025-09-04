@@ -1579,7 +1579,7 @@ class DevelopersController extends AppController
         $this->viewBuilder()->setTemplate('to_debug');
         $toDebug = [];
 
-        $toDebug[' $this->Auth->user()'] = $this->Auth->user('id');
+        $toDebug[' $this->Auth->user()'] = $this->getCurrentUserId();
 
 
         $this->set('toDebug', $toDebug);
@@ -2584,7 +2584,8 @@ class DevelopersController extends AppController
         $toDebug[$email] = $gravatarUrl;
 
         $this->set('gravatarUrlBuild', $gravatarUrl);
-        $this->set('gravatarUrlAuth', $this->AuthUser->user('gravatar_url'));
+        $currentUser = $this->getCurrentUser();
+        $this->set('gravatarUrlAuth', $currentUser ? $currentUser['gravatar_url'] ?? null : null);
 
         $this->set('toDebug', $toDebug);
     }

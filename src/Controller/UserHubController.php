@@ -33,17 +33,18 @@ class UserHubController extends AppController
     protected Table|UsersTable $Users;
 
     /**
-     * Initialize controller
-     *
-     * @return void
-     * @throws \Exception
+     * Initialization hook method.
      */
     public function initialize(): void
     {
         parent::initialize();
 
+        // Initialize the Users table
         $this->Users = TableRegistry::getTableLocator()->get('Users');
         $this->set('typeMap', $this->Users->getSchema()->typeMap());
+
+        // Allow unauthenticated access to login and related actions
+        $this->Authentication->addUnauthenticatedActions(['login', 'logout']);
     }
 
     /**
@@ -575,8 +576,11 @@ class UserHubController extends AppController
         $this->set('caseSensitive', $caseSensitive);
 
         //see if they are already logged in
-        if (@$this->Auth instanceof AuthComponent && @$this->Auth->user()) {
-            return $this->redirect($this->Auth->redirectUrl());
+        $result = $this->Authentication->getResult();
+        if ($result && $result->isValid()) {
+            // User is already authenticated, redirect them
+            $target = $this->Authentication->getLoginRedirect() ?? '/';
+            return $this->redirect($target);
         }
 
         $user = $this->Users->newEmptyEntity();
@@ -585,15 +589,14 @@ class UserHubController extends AppController
 
         //Form Authentication
         if ($this->request->is('post')) {
-            $identifiedUser = $this->Auth->identify();
+            $result = $this->Authentication->getResult();
 
-            if (!$identifiedUser) {
+            if ($result->isValid()) {
+                //Get the authenticated user data
+                $identifiedUser = $result->getData();
+                $userDetails = $this->Users->getExtendedUserSessionData($identifiedUser->id, true);
+                        } else {
                 $this->Flash->error(__('Invalid username or password, please try again.'));
-            }
-
-            if ($identifiedUser) {
-                //Auth->identify() does not quite give all the details we need so get better version
-                $userDetails = $this->Users->getExtendedUserSessionData($identifiedUser['id'], true);
             }
         }
 
@@ -657,9 +660,12 @@ class UserHubController extends AppController
 
         //finally, log them in
         if ($userDetails) {
-            $this->Auth->setUser($userDetails);
+            // Persist the user session using the new Authentication plugin
+            $this->Authentication->setIdentity($userDetails);
             $this->Auditor->auditInfo(__('User ID:{0} {1} {2} logged in.', $userDetails['id'], $userDetails['first_name'], $userDetails['last_name']));
-            return $this->redirect($this->Auth->redirectUrl());
+
+            $target = $this->Authentication->getLoginRedirect() ?? '/';
+            return $this->redirect($target);
         }
 
         $this->viewBuilder()->setLayout('authentication-form');
@@ -677,16 +683,14 @@ class UserHubController extends AppController
     public function logout(): ?Response
     {
         //destroy the dynamically created user cache
-        if ($this->Auth->user('id')) {
-            $this->Users->destroyCacheForUser($this->Auth->user('id'));
+        $identity = $this->Authentication->getIdentity();
+        if ($identity && isset($identity->id) && $identity->id) {
+            $this->Users->destroyCacheForUser($identity->id);
         }
 
-        $url = $this->Auth->logout();
+        $this->Authentication->logout();
         $this->request->getSession()->destroy();
         $this->Flash->success(__('Successfully logged out'));
-
-        //todo launch bug as this does not work
-        //return $this->redirect($url);
 
         //this works
         header('Location: ' . APP_LINK_POST_LOGOUT);

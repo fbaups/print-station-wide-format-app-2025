@@ -65,7 +65,7 @@ class AppView extends View
             'multiRole' => true,
             'pivotTable ' => 'roles_users',
             'roleColumn ' => 'roles',
-            'className' => 'ExtendedAuthUser',
+            'className' => 'App\View\Helper\ExtendedAuthUserHelper',
         ];
         $this->loadHelper('AuthUser', $tinyAuthConfig);
     }

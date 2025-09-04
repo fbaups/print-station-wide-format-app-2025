@@ -267,6 +267,34 @@ class UsersTable extends AppTable
     }
 
     /**
+     * Custom finder that supports login with both username and email
+     */
+    public function findAuthWithEmailSupport(Query $query, array $options): Query
+    {
+        $query = $query
+            ->contain('Roles')
+            ->contain('UserStatuses');
+
+        return $query;
+    }
+
+    /**
+     * Find user by username or email for authentication
+     */
+    public function findUserByUsernameOrEmail(string $identifier): ?User
+    {
+        return $this->find()
+            ->contain(['Roles', 'UserStatuses'])
+            ->where([
+                'OR' => [
+                    'Users.username' => $identifier,
+                    'Users.email' => $identifier
+                ]
+            ])
+            ->first();
+    }
+
+    /**
      * Strong password validation rules.
      *
      * @param Validator $validator Validator instance.

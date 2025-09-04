@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\Paging\Exception\PageOutOfBoundsException;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
@@ -38,6 +39,11 @@ class UsersController extends AppController
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
+
+        // Skip authorization - TinyAuth middleware handles this
+        if (isset($this->Authorization)) {
+            $this->Authorization->skipAuthorization();
+        }
 
         //prevent some actions from needing CSRF Token validation for AJAX requests
         //$this->FormProtection->setConfig('unlockedActions', ['edit']);
@@ -140,7 +146,20 @@ class UsersController extends AppController
                 'page' => intval(($datatablesQuery['start'] / $datatablesQuery['length']) + 1),
                 'order' => $order,
             ];
-            $users = $this->paginate($users);
+
+            try {
+                $users = $this->paginate($users);
+            } catch (PageOutOfBoundsException $e) {
+                // If requested page is out of bounds, reset to page 1
+                if ($this->request->is('ajax')) {
+                    // For AJAX requests, modify the pagination and try again
+                    $this->paginate['page'] = 1;
+                    $users = $this->paginate($users);
+                } else {
+                    // For regular requests, redirect to page 1
+                    return $this->redirect(['action' => 'index']);
+                }
+            }
             $this->set(compact('users'));
             $this->set('isAjax', $isAjax);
             $this->set('message', $this->Users->getAllAlertsLogSequence());
@@ -179,13 +198,13 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles(), false);
+            $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles(), false);
             $rolesToApply = $this->request->getData('roles');
             $rolesToApplyCleaned = $this->Users->Roles->validatePeerRoles($peerRoles, $rolesToApply);
 
             if (empty($rolesToApplyCleaned)) {
                 $this->Flash->error(__('There was as issue assigning a Role to the User. Please, try again.'));
-                $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles());
+                $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles());
                 $userStatuses = $this->Users->UserStatuses->find('list', ['limit' => 200])->all();
                 $this->set(compact('user', 'userStatuses', 'peerRoles'));
                 return;
@@ -200,13 +219,17 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
+                // Clear any pagination session data to prevent page 2 issues
+                $this->request->getSession()->delete('Users.page');
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
 
-        $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles());
+        $currentRoles = $this->getCurrentUserRoles();
+        $peerRoles = $this->Users->Roles->getPeerRoles($currentRoles);
         $userStatuses = $this->Users->UserStatuses->find('list', ['limit' => 200])->all();
+
         $this->set(compact('user', 'userStatuses', 'peerRoles'));
     }
 
@@ -220,7 +243,7 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles(), false);
+            $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles(), false);
             $rolesToApply = $this->request->getData('roles');
             $rolesToApplyCleaned = $this->Users->Roles->validatePeerRoles($peerRoles, $rolesToApply);
 
@@ -238,7 +261,8 @@ class UsersController extends AppController
             if ($user) {
                 $this->Flash->success(__('An invitation has been sent to {0}.', $user->email));
 
-                if (in_array(strtolower(Configure::read('mode')), ['dev', 'development'])) {
+                $mode = Configure::read('mode');
+                if ($mode && in_array(strtolower($mode), ['dev', 'development'])) {
                     $userInfo = $this->Users->userInvitationData;
                     $this->Flash->info(
                         __('Invitation URL for {0}: <strong>{1}</strong>', $userInfo['full_name'], $userInfo['invitation_url']),
@@ -254,7 +278,7 @@ class UsersController extends AppController
 
         }
 
-        $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles());
+        $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles());
         $this->set(compact('user', 'peerRoles'));
     }
 
@@ -272,20 +296,20 @@ class UsersController extends AppController
 
         $user = $this->Users->get($id, contain: ['Roles']);
 
-        $canManage = $this->Users->canUserManageOtherUser($this->AuthUser->id(), $user);
+        $canManage = $this->Users->canUserManageOtherUser($this->getCurrentUserId(), $user);
         if (!$canManage) {
             $this->Flash->error(__('Sorry, you cannot Manage this User.'));
             return $this->redirect(['action' => 'index']);
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles(), false);
+            $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles(), false);
             $rolesToApply = $this->request->getData('roles');
             $rolesToApplyCleaned = $this->Users->Roles->validatePeerRoles($peerRoles, $rolesToApply);
 
             if (empty($rolesToApplyCleaned)) {
                 $this->Flash->error(__('There was as issue assigning a Role to the User. Please, try again.'));
-                $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles());
+                $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles());
                 $userStatuses = $this->Users->UserStatuses->find('list', ['limit' => 200])->all();
                 $this->set(compact('user', 'userStatuses', 'peerRoles'));
                 return;
@@ -310,7 +334,7 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
 
-        $peerRoles = $this->Users->Roles->getPeerRoles($this->AuthUser->roles());
+        $peerRoles = $this->Users->Roles->getPeerRoles($this->getCurrentUserRoles());
         $userStatuses = $this->Users->UserStatuses->find('list', ['limit' => 200])->all();
         $this->set(compact('user', 'userStatuses', 'peerRoles'));
     }
@@ -333,7 +357,7 @@ class UsersController extends AppController
 
         $user = $this->Users->get($id, contain: ['Roles']);
 
-        $canManage = $this->Users->canUserManageOtherUser($this->AuthUser->id(), $user);
+        $canManage = $this->Users->canUserManageOtherUser($this->getCurrentUserId(), $user);
         if (!$canManage) {
             $this->Flash->error(__('Sorry, you cannot Manage this User.'));
             return $this->redirect(['action' => 'index']);
@@ -389,7 +413,7 @@ class UsersController extends AppController
      */
     public function impersonate($id = null)
     {
-        if (!$this->AuthUser->hasRoles(['superadmin'])) {
+        if (!$this->currentUserHasRoles(['superadmin'])) {
             $this->Flash->error(__('Sorry, you are not authorised to impersonate other Users.'));
             return $this->redirect(['prefix' => 'Administrators', 'controller' => '/']);
         }
@@ -398,7 +422,14 @@ class UsersController extends AppController
             return $this->redirect(['prefix' => 'Administrators', 'controller' => '/']);
         }
 
-        $currentUser = $this->AuthUser->user();
+        $currentUserId = $this->getCurrentUserId();
+        if (!$currentUserId) {
+            $this->Flash->error(__('Current user session is invalid.'));
+            return $this->redirect(['prefix' => 'Administrators', 'controller' => '/']);
+        }
+
+        // Get current user details from database for audit log
+        $currentUser = $this->Users->get($currentUserId)->toArray();
 
         /** @var User $newUser */
         $newUser = $this->Users
@@ -410,10 +441,11 @@ class UsersController extends AppController
                 $currentUser['id'], $currentUser['first_name'], $currentUser['last_name'],
                 $newUser['id'], $newUser['first_name'], $newUser['last_name']);
             $this->Auditor->auditInfo($message);
-            $this->Auth->logout();
-            $this->Auth->setUser($newUser);
+            $this->Authentication->logout();
+            $this->Authentication->setIdentity($newUser);
             $this->Flash->info(__('You are now logged in as {0} {1}.', $newUser['first_name'], $newUser['last_name']));
-            return $this->redirect($this->Auth->redirectUrl());
+            $target = $this->Authentication->getLoginRedirect() ?? '/';
+            return $this->redirect($target);
         }
 
         return null;

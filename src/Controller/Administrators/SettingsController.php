@@ -454,7 +454,8 @@ class SettingsController extends AppController
      */
     public function seed($gte = null, $lte = null): ?Response
     {
-        if (strtolower(Configure::read('mode')) !== 'prod') {
+        $mode = Configure::read('mode');
+        if ($mode && strtolower($mode) !== 'prod') {
             $seeds = $this->Settings->find('all')
                 ->orderByAsc('id')
                 ->enableHydration(false);

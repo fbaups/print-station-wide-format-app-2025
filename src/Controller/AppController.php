@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\BackgroundServices\BackgroundServicesAssistant;
+use App\Controller\Component\AuthenticationBridgeComponent;
 use App\Controller\Component\FlashComponent;
 use App\Log\Engine\Auditor;
 use App\Model\Entity\User;
@@ -26,25 +27,19 @@ use App\Model\Table\SeedsTable;
 use App\Model\Table\SettingsTable;
 use App\Model\Table\UsersTable;
 use App\Utility\Instances\InstanceTasks;
-use App\View\Helper\ExtendedAuthUserHelper;
 use arajcany\ToolBox\Utility\TextFormatter;
 use Authentication\Controller\Component\AuthenticationComponent;
-use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionInterface;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
-use Cake\Http\Session;
 use Cake\I18n\DateTime;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Exception;
-use JetBrains\PhpStorm\NoReturn;
-use TinyAuth\Controller\Component\AuthComponent;
-use TinyAuth\Controller\Component\AuthUserComponent;
 
 /**
  * Application Controller
@@ -55,8 +50,7 @@ use TinyAuth\Controller\Component\AuthUserComponent;
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
  *
  * @property AuthenticationComponent $Authentication
- * @property AuthComponent $Auth
- * @property AuthUserComponent $AuthUser
+ * @property AuthenticationBridgeComponent $AuthenticationBridge
  * @property FlashComponent $Flash
  * @property Auditor $Auditor
  */
@@ -116,9 +110,10 @@ class AppController extends Controller
         //check to see if Instance has been configured
         $instanceResult = $this->checkInstance();
 
-        //if this Instance has not been configured, no need to load Auth
+        //if this Instance has been configured, load authentication
         if ($instanceResult === true) {
-            $this->loadAuthComponent();
+            $this->loadComponent('Authentication.Authentication');
+            $this->loadComponent('AuthenticationBridge');
         }
 
         //localize the App using the cascading rules
@@ -147,16 +142,52 @@ class AppController extends Controller
             }
         }
 
-        if (@$this->AuthUser instanceof AuthUserComponent && @isset($this->Users)) {
-            $usersSessionData = $this->Users->getExtendedUserSessionData($this->AuthUser->id());
+        if (@$this->Authentication && @isset($this->Users)) {
+            $identity = $this->Authentication->getIdentity();
+            if ($identity) {
+                $usersSessionData = $this->Users->getExtendedUserSessionData($identity->id);
+                // Set _authUser variable that TinyAuth templates expect
+                $this->set('_authUser', $usersSessionData);
+                // Create AuthUser bridge object
+                if (isset($this->AuthenticationBridge)) {
+                    $authUserHelper = $this->AuthenticationBridge->createAuthUserBridge($usersSessionData);
+                } else {
+                    // Fallback: create bridge object directly
+                    $authUserHelper       = new \stdClass();
+                    $authUserHelper->data = $usersSessionData;
+                    $authUserHelper->user = function ($field = null) use ($usersSessionData) {
+                        return $field ? ($usersSessionData[$field] ?? null) : $usersSessionData;
+                    };
+                    $authUserHelper->hasRoles = function ($roles) use ($usersSessionData) {
+                        if (! isset($usersSessionData['roles'])) {
+                            return false;
+                        }
+
+                        $userRoles = array_column($usersSessionData['roles'], 'name');
+                        return ! empty(array_intersect((array) $roles, $userRoles));
+                    };
+                    $authUserHelper->getFulName = function () use ($usersSessionData) {
+                        return trim(($usersSessionData['first_name'] ?? '') . ' ' . ($usersSessionData['last_name'] ?? ''));
+                    };
+                }
+                $this->set('AuthUser', $authUserHelper);
+            } else {
+                $usersSessionData = [];
+                $this->set('_authUser', null);
+                $this->set('AuthUser', null);
+            }
         } else {
             $usersSessionData = [];
+            $this->set('_authUser', null);
+            $this->set('AuthUser', null);
         }
         $this->set('usersSessionData', $usersSessionData);
 
         $this->applyHeaders();
 
         $this->setupGeneralLinks();
+
+        // Note: Authorization is now handled by TinyAuthAuthorizationMiddleware
 
         //control page-headers in the GUI
         $this->set('headerShow', true);
@@ -175,94 +206,8 @@ class AppController extends Controller
                 $this->Flash->info(__("Please login to access the requested URL."));
             }
         }
-
-        //do some stuff for the view
-        try {
-            $Session = $this->request->getSession();
-            $xmpCredentialsCount = ($Session->read('IntegrationCredentials.XMPie-uProduce.count'));
-            if (!$xmpCredentialsCount) {
-                /** @var InternalOptionsTable $IC */
-                $IC = \Cake\ORM\TableRegistry::getTableLocator()->get('IntegrationCredentials');
-                $xmpCredentialsCount = $IC->find('all')->where(['type' => 'XMPie-uProduce', 'is_enabled' => true])->count();
-                $Session->write('IntegrationCredentials.XMPie-uProduce.count', $xmpCredentialsCount);
-            }
-        } catch (\Throwable) {
-        }
-
     }
 
-    /**
-     * @throws Exception
-     */
-    private function loadAuthComponent()
-    {
-        /**
-         * Authentication is the process of identifying users by provided credentials and ensuring
-         * that users are who they say they are. Generally, this is done through a username and password,
-         * that are checked against a known list of users.
-         *
-         * Authorization is the process of ensuring that an identified/authenticated user is
-         * allowed to access the resources they are requesting.
-         */
-        $tinyAuthUserConfig = [
-            'autoClearCache' => false,
-            'multiRole' => true,
-            'pivotTable ' => 'roles_users',
-            'roleColumn ' => 'roles',
-        ];
-
-        $tinyAuthorizeConfig = [
-            'loginAction' => [
-                'prefix' => false,
-                'controller' => 'UserHub',
-                'action' => 'login',
-            ],
-            'loginRedirect' => [
-                'prefix' => false,
-                'controller' => '/',
-                'action' => '',
-            ],
-            'logoutRedirect' => [
-                'prefix' => false,
-                'controller' => '/',
-                'action' => '',
-            ],
-            'authenticate' => [
-                'TinyAuth.MultiColumn' => [
-                    'fields' => [
-                        'username' => 'username',
-                        'password' => 'password',
-                    ],
-                    'columns' => ['username', 'email'],
-                    'userModel' => 'Users',
-                ],
-            ],
-            'autoClearCache' => false,
-            'authorize' => [
-                'TinyAuth.Tiny' => $tinyAuthUserConfig
-            ],
-            'checkAuthIn' => 'Controller.initialize',
-            'authError' => __('Sorry, you are not authorised to access that location.'),
-            'flash' => [
-                'element' => 'error',
-                'key' => 'flash',
-                'params' => ['class' => 'error this']
-            ],
-        ];
-
-        try {
-            $this->loadComponent('TinyAuth.Auth', $tinyAuthorizeConfig);
-            //dd($this->Auth);
-            //dd($this->Auth->getConfig());
-            //dd($this->Auth->user());
-
-            $this->loadComponent('TinyAuth.AuthUser', $tinyAuthUserConfig);
-            //dd($this->AuthUser->user());
-            //dd($this->AuthUser->getConfig());
-        } catch (\Throwable $exception) {
-            $this->Auditor->logError($exception->getMessage());
-        }
-    }
 
     /**
      * Checks to see if the Instance has been configured.
@@ -290,25 +235,40 @@ class AppController extends Controller
 
             //perform DB Migrations if there are no tables
             if ($dbDriver !== 'Dummy') {
-                $tables = $this->Connection->getSchemaCollection()->listTables();
-                if (($key = array_search('phinxlog', $tables)) !== false) {
-                    unset($tables[$key]);
-                }
-                if (empty($tables) || !in_array('settings', $tables) || !in_array('users', $tables)) {
-                    $InstanceTasks = new InstanceTasks();
+                $shouldResetSuperAdmin = false;
+                try {
+                    $schema = new \Cake\Database\Schema\Collection($this->Connection);
+                    $tables = $schema->listTables();
+                    if (($key = array_search('phinxlog', $tables)) !== false) {
+                        unset($tables[$key]);
+                    }
+                    if (empty($tables) || ! in_array('settings', $tables) || ! in_array('users', $tables)) {
+                        $shouldResetSuperAdmin = true; // Only reset if we're creating tables from scratch
+                        $InstanceTasks         = new InstanceTasks();
+                        $InstanceTasks->performMigrations();
+                    }
+                } catch (\Exception $e) {
+                    // If schema collection fails, try to run migrations anyway
+                    $shouldResetSuperAdmin = true; // Only reset if we're doing initial setup
+                    $InstanceTasks         = new InstanceTasks();
                     $InstanceTasks->performMigrations();
+                }
 
+                // Only reset SuperAdmin password on initial setup, not on every migration
+                if ($shouldResetSuperAdmin) {
                     /** @var User $user */
                     $Users = TableRegistry::getTableLocator()->get('Users');
-                    $user = $Users->find('all')->where(['username' => 'SuperAdmin'])->first();
-                    $tmpPassword = sha1(mt_rand() . mt_rand() . mt_rand() . mt_rand());
-                    $user->password = $tmpPassword;
-                    $user->password_expiry = (new DateTime())->subDays(1);
-                    $Users->save($user);
-                    $this->Flash->info(
-                        __('Please login with the following credentials:<br><strong>Username</strong> SuperAdmin<br><strong>Password</strong> {0}', $tmpPassword),
-                        ['escape' => false, 'params' => ['clickHide' => false]]
-                    );
+                    $user  = $Users->find('all')->where(['username' => 'SuperAdmin'])->first();
+                    if ($user) {
+                        $tmpPassword           = sha1(mt_rand() . mt_rand() . mt_rand() . mt_rand());
+                        $user->password        = $tmpPassword;
+                        $user->password_expiry = (new DateTime())->subDays(1);
+                        $Users->save($user);
+                        $this->Flash->info(
+                            __('Please login with the following credentials:<br><strong>Username</strong> SuperAdmin<br><strong>Password</strong> {0}', $tmpPassword),
+                            ['escape' => false, 'params' => ['clickHide' => false]]
+                        );
+                    }
                 }
             }
         }
@@ -317,7 +277,7 @@ class AppController extends Controller
     }
 
     //die as the Application need to be configured
-    #[NoReturn] private function dieWithInstanceConfigureStaticHtml(): void
+    private function dieWithInstanceConfigureStaticHtml(): void
     {
         $redirectUrl = Router::url(['prefix' => 'Administrators', 'controller' => 'Instance', 'action' => 'configure'], true);
         $contents = "<p class=\"center\">Please redirect your browser to&nbsp;<a href=\"{$redirectUrl}\">{$redirectUrl}</a>&nbsp;to install " . APP_NAME . ".</p>";
@@ -366,14 +326,14 @@ class AppController extends Controller
         //localizations from bootstrap
         $defaultLocalisations =
             [
-                'location' => '',
-                'locale' => Configure::read("App.defaultLocale"),
-                'date_format' => 'yyyy-MM-dd',
-                'time_format' => 'HH:mm:ss',
-                'datetime_format' => 'yyyy-MM-dd HH:mm:ss',
-                'week_start' => 'Sunday',
-                'timezone' => Configure::read("App.defaultTimezone"),
-            ];
+            'location'        => '',
+            'locale'          => Configure::read("App.defaultLocale"),
+            'date_format'     => 'yyyy-MM-dd',
+            'time_format'     => 'HH:mm:ss',
+            'datetime_format' => 'yyyy-MM-dd HH:mm:ss',
+            'week_start'      => 'Sunday',
+            'timezone'        => Configure::read("App.defaultTimezone"),
+        ];
 
         //localizations from DB
         if (Configure::check('SettingsGrouped.localization')) {
@@ -398,10 +358,23 @@ class AppController extends Controller
 
         //if User is logged in, configure the App for the User
         $userLocalizations = [];
-        if (@$this->Auth instanceof AuthComponent && @$this->Auth->user()) {
-            if (isset($this->Auth->user()['user_localizations'][0])) {
-                $userLocalizations = $this->Auth->user()['user_localizations'][0];
-                $userLocalizations = array_filter($userLocalizations);
+        if (isset($this->Authentication)) {
+            $identity = $this->Authentication->getIdentity();
+            if ($identity) {
+                // Convert identity to array for backward compatibility
+                if (is_array($identity)) {
+                    $currentUser = $identity;
+                } else {
+                    $currentUser = [];
+                    foreach (get_object_vars($identity) as $key => $value) {
+                        $currentUser[$key] = $value;
+                    }
+                }
+
+                if ($currentUser && isset($currentUser['user_localizations'][0])) {
+                    $userLocalizations = $currentUser['user_localizations'][0];
+                    $userLocalizations = array_filter($userLocalizations);
+                }
             }
         }
 
@@ -464,14 +437,16 @@ class AppController extends Controller
      */
     protected function killAuthFlashMessages(): void
     {
-        if ($this->Auth) {
-            $messages = $this->request->getSession()->read("Flash.flash");
-            if (is_array($messages)) {
-                foreach ($messages as $k => $msg) {
-                    if ($msg) {
-                        if ($msg['message'] == $this->Auth->getConfig('authError')) {
-                            $this->request->getSession()->delete("Flash.flash.{$k}");
-                        }
+        // Clean up flash messages - note: with new authentication system,
+        // flash message handling is simplified
+        $messages = $this->request->getSession()->read("Flash.flash");
+        if (is_array($messages)) {
+            foreach ($messages as $k => $msg) {
+                if ($msg && isset($msg['message'])) {
+                    // Remove auth-related error messages
+                    if (strpos($msg['message'], 'authorised') !== false ||
+                        strpos($msg['message'], 'login') !== false) {
+                        $this->request->getSession()->delete("Flash.flash.{$k}");
                     }
                 }
             }
@@ -483,24 +458,131 @@ class AppController extends Controller
      */
     private function configureSessionTracker(): void
     {
-        if (!$this->AuthUser) {
-            //we don't know who the user is so we can't configure the tracker
-            return;
+        if (isset($this->AuthenticationBridge)) {
+            $this->AuthenticationBridge->configureSessionTracker();
+        }
+    }
+
+    // Authentication bridge methods - these delegate to AuthenticationBridgeComponent when available
+    // but provide fallback functionality for backward compatibility
+
+    /**
+     * Get current user ID (replaces AuthUser->id())
+     */
+    protected function getCurrentUserId(): ?int
+    {
+        if (isset($this->AuthenticationBridge)) {
+            return $this->AuthenticationBridge->getCurrentUserId();
         }
 
-        $phpSessionId = $this->request->getSession()->id();
-        if (!$phpSessionId) {
-            return;
+        // Fallback: direct Authentication component access
+        if (isset($this->Authentication)) {
+            $identity = $this->Authentication->getIdentity();
+            return $identity ? $identity->id : null;
         }
 
-        $trackerInfo = Cache::read("PhpSession.{$phpSessionId}", 'users_session_tracker');
-        if (!$trackerInfo) {
-            $trackerInfo = [
-                'user_id' => $this->AuthUser->id(),
-                'is_applied' => false,
-            ];
-            Cache::write("PhpSession.{$phpSessionId}", $trackerInfo, 'users_session_tracker');
+        return null;
+    }
+
+    /**
+     * Get current user roles (replaces AuthUser->roles())
+     */
+    protected function getCurrentUserRoles(): array
+    {
+        if (isset($this->AuthenticationBridge)) {
+            return $this->AuthenticationBridge->getCurrentUserRoles();
         }
+
+        // Fallback: direct Authentication component access
+        if (isset($this->Authentication)) {
+            $identity = $this->Authentication->getIdentity();
+            if (! $identity || ! isset($identity->roles)) {
+                return [];
+            }
+
+            $roles = [];
+            foreach ($identity->roles as $role) {
+                if (is_array($role)) {
+                    $roleName = $role['name'] ?? $role['alias'] ?? '';
+                } else {
+                    $roleName = $role->name ?? $role->alias ?? '';
+                }
+
+                if ($roleName) {
+                    $roles[] = strtolower($roleName);
+                }
+            }
+            return $roles;
+        }
+
+        return [];
+    }
+
+    /**
+     * Check if current user has specific roles (replaces AuthUser->hasRoles())
+     */
+    protected function currentUserHasRoles(array $roleNames): bool
+    {
+        if (isset($this->AuthenticationBridge)) {
+            return $this->AuthenticationBridge->currentUserHasRoles($roleNames);
+        }
+
+        // Fallback: use direct method
+        $userRoles      = $this->getCurrentUserRoles();
+        $roleNamesLower = array_map('strtolower', $roleNames);
+        return ! empty(array_intersect($roleNamesLower, $userRoles));
+    }
+
+    /**
+     * Get current user data (replaces AuthUser->user())
+     */
+    protected function getCurrentUser(): ?array
+    {
+        if (isset($this->AuthenticationBridge)) {
+            return $this->AuthenticationBridge->getCurrentUser();
+        }
+
+        // Fallback: direct Authentication component access
+        if (isset($this->Authentication)) {
+            $identity = $this->Authentication->getIdentity();
+            if (! $identity) {
+                return null;
+            }
+
+            if (is_array($identity)) {
+                return $identity;
+            } else {
+                $data = [];
+                foreach (get_object_vars($identity) as $key => $value) {
+                    $data[$key] = $value;
+                }
+                return $data;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if current user has access to specific action (replaces AuthUser->hasAccess())
+     */
+    protected function currentUserHasAccess(array $url): bool
+    {
+        if (isset($this->AuthenticationBridge)) {
+            return $this->AuthenticationBridge->currentUserHasAccess($url);
+        }
+
+        // Fallback: basic access check
+        if (isset($this->Authentication)) {
+            $identity = $this->Authentication->getIdentity();
+            if (! $identity) {
+                return false;
+            }
+            $userRoles = $this->getCurrentUserRoles();
+            return ! empty($userRoles);
+        }
+
+        return false;
     }
 
 }

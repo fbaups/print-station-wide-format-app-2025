@@ -15,7 +15,8 @@ $bs = '<span class="d-inline-block d-sm-none">XS</span>'
     . '<span class="d-none d-xl-inline-block d-xxl-none">XL</span>'
     . '<span class="d-none d-xxl-inline-block">XXL</span>';
 
-if (($this->AuthUser) && @$this->AuthUser instanceof ExtendedAuthUserHelper) {
+$identity = $this->getRequest()->getAttribute('identity');
+if ($identity) {
     $debugIcon = $this->IconMaker->bootstrapIcon('bug');
 } else {
     $debugIcon = '';

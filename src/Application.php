@@ -18,28 +18,28 @@ declare(strict_types=1);
 namespace App;
 
 use App\Middleware\ModifyRequestDataMiddleware;
+use App\Middleware\TinyAuthAuthorizationMiddleware;
 use App\Model\Table\UsersTable;
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Identifier\AbstractIdentifier;
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\Middleware\HttpsEnforcerMiddleware;
-use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Routing\Router;
-use Authentication\AuthenticationService;
-use Authentication\AuthenticationServiceInterface;
-use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\AbstractIdentifier;
-use Authentication\Identifier\IdentifierInterface;
-use Authentication\Middleware\AuthenticationMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -121,8 +121,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
-            ->add(new AuthenticationMiddleware($this));
-
+            ->add(new AuthenticationMiddleware($this))
+            ->add(new TinyAuthAuthorizationMiddleware());
 
         // Cross Site Request Forgery (CSRF) Protection Middleware
         // https://book.cakephp.org/5/en/security/csrf.html#csrf-protection
@@ -267,8 +267,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ]);
 
         $fields = [
-            AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
-            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
+            AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
+            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
         ];
         // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
@@ -277,13 +277,38 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'loginUrl' => Router::url([
                 'prefix' => false,
                 'plugin' => false,
-                'controller' => 'UserHuB',
+                'controller' => 'UserHub',
                 'action' => 'login',
             ]),
         ]);
 
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
+        // Load identifiers - first try username, then email
+        $service->loadIdentifier('UsernamePassword', [
+            'className' => 'Authentication.Password',
+            'fields'    => [
+                AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
+                AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
+            ],
+            'resolver'  => [
+                'className' => 'Authentication.Orm',
+                'userModel' => 'Users',
+                'finder'    => 'authWithEmailSupport',
+            ],
+        ]);
+
+        // Second identifier for email login
+        $service->loadIdentifier('EmailPassword', [
+            'className' => 'Authentication.Password',
+            'fields'    => [
+                AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
+                AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
+            ],
+            'resolver'  => [
+                'className' => 'Authentication.Orm',
+                'userModel' => 'Users',
+                'finder'    => 'authWithEmailSupport',
+            ],
+        ]);
 
         return $service;
     }

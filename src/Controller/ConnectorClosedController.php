@@ -50,7 +50,7 @@ class ConnectorClosedController extends AppController
         }
 
         //uncomment if User must be Authenticated to access this controller
-        if (!$this->Auth->user()) {
+        if (!$this->Authentication->getIdentity()) {
             $this->addDangerAlerts(__('Invalid User'));
             $responseData = ['status' => $this->getHighestAlertLevel(), 'alerts' => $this->getAllAlertsLogSequence()];
             $responseData = json_encode($responseData, JSON_PRETTY_PRINT);
@@ -125,7 +125,8 @@ class ConnectorClosedController extends AppController
         /** @var UsersTable $Users */
         $Users = TableRegistry::getTableLocator()->get('Users');
 
-        $usersSessionData = $Users->getExtendedUserSessionData($this->AuthUser->id());
+        $identity = $this->Authentication->getIdentity();
+        $usersSessionData = $identity ? $Users->getExtendedUserSessionData($identity->id) : [];
         $sessionTimeout = $usersSessionData['session_timeout'];
         $inactivityTimeout = $usersSessionData['inactivity_timeout'];
         $sessionTimeoutTimestamp = time() + $sessionTimeout;

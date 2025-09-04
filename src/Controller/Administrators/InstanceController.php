@@ -159,7 +159,8 @@ class InstanceController extends AppController
      */
     public function upgrade($upgradeFileReleaseDate = null): ?Response
     {
-        if (!in_array(strtolower(Configure::read('mode')), ['uat', 'test', 'prod', 'production'])) {
+        $mode = Configure::read('mode');
+        if (!$mode || !in_array(strtolower($mode), ['uat', 'test', 'prod', 'production'])) {
             $this->Flash->error(__('You are not allowed to Upgrade!'));
             return $this->redirect(['action' => 'updates']);
         } elseif (empty(Configure::read('mode'))) {
