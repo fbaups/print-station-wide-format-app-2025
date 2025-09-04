@@ -131,6 +131,9 @@ class AppController extends Controller
     {
         parent::beforeFilter($event);
 
+        // Ensure component properties are properly set
+        $this->ensureComponentProperties();
+
         if ($this->connectionDriver !== 'Dummy') {
             //die if application login is requested outside authorised domains
             $domain = str_replace(['http://', 'https://'], "", Router::fullBaseUrl());
@@ -458,8 +461,28 @@ class AppController extends Controller
      */
     private function configureSessionTracker(): void
     {
+        // Ensure component properties are set before using them
+        $this->ensureComponentProperties();
+
         if (isset($this->AuthenticationBridge)) {
             $this->AuthenticationBridge->configureSessionTracker();
+        }
+    }
+
+    /**
+     * Ensure component properties are properly set
+     * This addresses timing issues where components are loaded but properties aren't set
+     */
+    private function ensureComponentProperties(): void
+    {
+        // Ensure AuthenticationBridge property is set if component is loaded
+        if (!isset($this->AuthenticationBridge) && $this->components()->has('AuthenticationBridge')) {
+            $this->AuthenticationBridge = $this->components()->get('AuthenticationBridge');
+        }
+
+        // Ensure Authentication property is set if component is loaded
+        if (!isset($this->Authentication) && $this->components()->has('Authentication')) {
+            $this->Authentication = $this->components()->get('Authentication');
         }
     }
 

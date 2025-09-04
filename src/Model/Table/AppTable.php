@@ -25,6 +25,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Query\DeleteQuery;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use League\Csv\Reader;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 
@@ -626,8 +627,7 @@ class AppTable extends Table
      */
     public function getCurrentAuthenticatedUser(array $contain = null): bool|array|EntityInterface
     {
-        $session = new Session();
-        $id = $session->read('Auth.User.id');
+        $id = $this->getCurrentAuthenticatedUserId();
 
         if (empty($id)) {
             return false;
@@ -657,6 +657,16 @@ class AppTable extends Table
      */
     public function getCurrentAuthenticatedUserId(): false|int
     {
+        // Try to get from current request context first
+        $request = Router::getRequest();
+        if ($request && $request->getAttribute('authentication')) {
+            $identity = $request->getAttribute('authentication')->getIdentity();
+            if ($identity && isset($identity->id)) {
+                return $identity->id;
+            }
+        }
+
+        // Fallback to session for backward compatibility
         $session = new Session();
         $id = $session->read('Auth.User.id');
 

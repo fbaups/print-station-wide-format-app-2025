@@ -121,10 +121,14 @@ class SubscriptionsTable extends AppTable
     public function findMyAllowedSubscriptions(int $userId = null): SelectQuery|Query\SelectQuery
     {
         $currentUserId = $this->getCurrentAuthenticatedUserId();
-        if (empty($userId) && empty($currentUserId)) {
-            $userId = 0;
-        } else {
-            $userId = $currentUserId;
+
+        if (empty($userId)) {
+            $userId = $currentUserId !== false ? $currentUserId : 0;
+        }
+
+        // If still no valid user ID, return empty result
+        if ($userId === 0 || $userId === false) {
+            return $this->find('all')->where(['1 = 0']); // Returns empty result
         }
 
         $roles = $this->Users->listOfRolesForUserByIdAndName($userId);
@@ -146,10 +150,14 @@ class SubscriptionsTable extends AppTable
     public function findmyActiveSubscriptions(int $userId = null): SelectQuery|Query\SelectQuery
     {
         $currentUserId = $this->getCurrentAuthenticatedUserId();
-        if (empty($userId) && empty($currentUserId)) {
-            $userId = 0;
-        } else {
-            $userId = $currentUserId;
+
+        if (empty($userId)) {
+            $userId = $currentUserId !== false ? $currentUserId : 0;
+        }
+
+        // If still no valid user ID, return empty result
+        if ($userId === 0 || $userId === false) {
+            return $this->find('all')->where(['1 = 0']); // Returns empty result
         }
 
         return $this->find('all')
@@ -169,10 +177,14 @@ class SubscriptionsTable extends AppTable
     public function findMyInactiveSubscriptions(int $userId = null): SelectQuery|Query\SelectQuery
     {
         $currentUserId = $this->getCurrentAuthenticatedUserId();
-        if (empty($userId) && empty($currentUserId)) {
-            $userId = 0;
-        } else {
-            $userId = $currentUserId;
+
+        if (empty($userId)) {
+            $userId = $currentUserId !== false ? $currentUserId : 0;
+        }
+
+        // If still no valid user ID, return empty result
+        if ($userId === 0 || $userId === false) {
+            return $this->find('all')->where(['1 = 0']); // Returns empty result
         }
 
         $allowedSubscriptions = $this->findMyAllowedSubscriptions($userId)->select(['id'], true);
