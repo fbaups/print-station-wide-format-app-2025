@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b989161a837ffeb0e5e38cf1cbac02eb",
+    "content-hash": "261edccc3d1f365dc05a9eaba1ac101a",
     "packages": [
         {
             "name": "arajcany/backblaze-b2-client",
@@ -361,6 +361,71 @@
                 "source": "https://github.com/cakephp/authentication"
             },
             "time": "2025-07-30T20:38:32+00:00"
+        },
+        {
+            "name": "cakephp/authorization",
+            "version": "3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakephp/authorization.git",
+                "reference": "6395003b7ff3928d58ad91e55d23031499a329f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/6395003b7ff3928d58ad91e55d23031499a329f0",
+                "reference": "6395003b7ff3928d58ad91e55d23031499a329f0",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/http": "^5.1",
+                "php": ">=8.1",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "cakephp/authentication": "^3.0",
+                "cakephp/bake": "^3.2",
+                "cakephp/cakephp": "^5.1",
+                "cakephp/cakephp-codesniffer": "^5.1",
+                "phpunit/phpunit": "^10.5.5 || ^11.1.3"
+            },
+            "suggest": {
+                "cakephp/http": "To use \"RequestPolicyInterface\" (Not needed separately if using full CakePHP framework).",
+                "cakephp/orm": "To use \"OrmResolver\" (Not needed separately if using full CakePHP framework)."
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Authorization\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/authorization/graphs/contributors"
+                }
+            ],
+            "description": "Authorization abstraction layer plugin for CakePHP",
+            "keywords": [
+                "access",
+                "auth",
+                "authorization",
+                "cakephp"
+            ],
+            "support": {
+                "docs": "https://cakephp.org/authorization/2/en/",
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/authorization/issues",
+                "source": "https://github.com/cakephp/authorization"
+            },
+            "time": "2025-07-29T14:41:00+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -962,20 +1027,20 @@
         },
         {
             "name": "dereuromark/cakephp-tinyauth",
-            "version": "4.3.1",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-tinyauth.git",
-                "reference": "beefe4bb5c0c15d09a2664159c724dbed1ae6241"
+                "reference": "206e4ae6c3029c71c37cba1416336b4d0dddafd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth/zipball/beefe4bb5c0c15d09a2664159c724dbed1ae6241",
-                "reference": "beefe4bb5c0c15d09a2664159c724dbed1ae6241",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth/zipball/206e4ae6c3029c71c37cba1416336b4d0dddafd3",
+                "reference": "206e4ae6c3029c71c37cba1416336b4d0dddafd3",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^5.0.0",
+                "cakephp/cakephp": "^5.1.1",
                 "php": ">=8.1"
             },
             "require-dev": {
@@ -984,8 +1049,7 @@
                 "cakephp/debug_kit": "^5.0.1",
                 "composer/semver": "^3.0",
                 "fig-r/psr2r-sniffer": "dev-master",
-                "phpunit/phpunit": "^10.2",
-                "slevomat/coding-standard": "~8.15.0"
+                "phpunit/phpunit": "^10.5 || ^11.5 || ^12.1"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -1018,7 +1082,7 @@
                 "issues": "https://github.com/dereuromark/cakephp-tinyauth/issues",
                 "source": "https://github.com/dereuromark/cakephp-tinyauth"
             },
-            "time": "2025-02-25T02:24:26+00:00"
+            "time": "2025-05-07T15:35:40+00:00"
         },
         {
             "name": "fxaps/xmpie-wsdl-wrapper-uproduce",
@@ -8731,16 +8795,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.13.2",
+            "version": "3.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "5b5e3821314f947dd040c70f7992a64eac89025c"
+                "reference": "5be16e10d07a2b0c629a8fc52c653fd57458bdf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5b5e3821314f947dd040c70f7992a64eac89025c",
-                "reference": "5b5e3821314f947dd040c70f7992a64eac89025c",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5be16e10d07a2b0c629a8fc52c653fd57458bdf8",
+                "reference": "5be16e10d07a2b0c629a8fc52c653fd57458bdf8",
                 "shasum": ""
             },
             "require": {
@@ -8811,7 +8875,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-06-17T22:17:01+00:00"
+            "time": "2025-09-04T19:19:52+00:00"
         },
         {
             "name": "symfony/finder",
@@ -9499,5 +9563,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
