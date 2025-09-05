@@ -44,7 +44,14 @@ class UserHubController extends AppController
         $this->set('typeMap', $this->Users->getSchema()->typeMap());
 
         // Allow unauthenticated access to login and related actions
-        $this->Authentication->addUnauthenticatedActions(['login', 'logout']);
+        $this->Authentication->addUnauthenticatedActions([
+            'login',
+            'logout',
+            'forgot',
+            'reset',
+            'confirm',
+            'request',
+        ]);
     }
 
     /**
